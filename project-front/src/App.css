@@ -1,0 +1,476 @@
+/*loginscreen*/
+
+.loginBg{
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.loginCont{
+  height: 80%;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  justify-content: center;
+  border-radius: 10px;
+}
+
+.loginForm{
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.loginBtn{
+  width: 60%;
+  text-align: center;
+  padding: 10px 0px;
+  border: 1px solid #39A7FF;
+  background-color: #39A7FF;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+
+/*homescreen*/
+
+
+.header{
+  height: 40px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  box-sizing: border-box;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.233);
+  padding-right: 20px;
+  gap: 6px;
+}
+
+
+.main{
+  width: 100%;
+  display: flex;
+  box-sizing: border-box;
+  height: calc(100vh - 40px);
+}
+
+.mainAside{
+  width: 250px;
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.mainView{
+  width: calc(100% - 250px);
+  height: 100%;
+  box-sizing: border-box;
+  overflow-y: scroll;
+  padding: 7px;
+}
+
+
+.mainView::-webkit-scrollbar {
+  width: 8px; /* Ancho del scrollbar */
+}
+
+.mainView::-webkit-scrollbar-thumb {
+background-color: #b6b6b6; /* Color del thumb (agarre) */
+border-radius: 8px; /* Borde redondeado del thumb */
+}
+
+.mainView::-webkit-scrollbar-track {
+background-color: #fff; /* Color del track (rastro) */
+border-radius: 8px; /* Borde redondeado del track */
+}
+
+
+.headerSection{
+  width: 100%;
+  box-sizing: border-box;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  /*
+  border: 1px solid violet;
+  */
+  align-items: center;
+}
+
+
+.tableFactura{
+  width: 100%;
+  margin: 0 auto;
+  color: rgb(24, 24, 24);
+}
+
+th{
+  text-align: start;
+  padding: 10px 5px;
+  background-color: #c1e7da;
+}
+
+.overlay{
+  height: 100vh;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #00000067;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.overlayCard{
+  height: 87%;
+  width: 70%;
+  background-color: white;
+  position: relative;
+}
+
+.selectorLabelCont{
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 5px;
+  cursor: pointer;
+  border: 1px solid black;
+}
+
+.selectorSubMenu{
+  width: 100%;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  border: 1px solid black;
+  z-index: 100;
+  background-color: white;
+}
+
+.selectorItem{
+  box-sizing: border-box;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.selectorItem:hover{
+  background-color: rgba(105, 105, 253, 0.616);
+  color: black;
+}
+
+.tr-list{
+  height: 30px;
+}
+
+.tr-list:hover{
+  background-color: #c1e7dac0;
+  cursor: pointer;
+  height: 30px;
+
+}
+
+.tableFontBold{
+  color: black;
+  font-weight: 500;
+}
+
+.filtro-container{
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.filtro-item{
+  padding: 4px 10px;
+  border-bottom: 2px solid white;
+  cursor: pointer;
+}
+
+.filtro-item-CTA{
+  padding: 4px 10px;
+  border-bottom: 2px solid green;
+  cursor: pointer;
+  color: green;
+  font-weight: 500;
+}
+
+.filtro-search-container{
+  width: 100%;
+  box-sizing: border-box;
+  padding: 7px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.inp:focus{
+  outline: none;
+  border: 1px solid transparent;
+}
+
+.nuevaFactura-section{
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0px 50px;
+}
+
+
+/*Estilo de los selectores*/
+.formHeader{
+  width: 100%;
+  height: 55px;
+  box-sizing: border-box;
+  border-bottom: 1px solid #00000031;
+  display: flex;
+  align-items: center;
+  padding: 0px 10px;
+  position: relative;
+  justify-content: center;
+  font-size: 23px;
+  gap: 10px;
+}
+
+
+.formContent{
+  height: calc(100% - 55px);
+  width: 100%;
+  box-sizing: border-box;
+  overflow-y: scroll;
+  padding: 30px 0px;
+}
+
+.formAlign{
+  width: 90%;
+  margin: 0 auto;
+}
+
+.formGrid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+
+.formGridItem{
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid salmon;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.selectorContainer{
+  position: relative;
+  border: 1px solid black;
+  box-sizing: border-box;
+}
+
+.selectorLabel{
+  height: 100%;
+  width: 100%;
+  padding: 0px 5px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.selectorSubMenu{
+  width: 100%;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 80;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+}
+
+
+.section{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 20px 0px;
+}
+
+
+.selectorBox{
+  height: 23px;
+  width: 23px;
+  border: 1px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cardBancos{
+  width: 90%;
+  box-sizing: border-box;
+  padding: 20px;
+  margin: 10px auto;
+  border-radius: 10px;
+}
+
+.cardShadow{
+  background: #f0f0f0;
+  box-shadow:  20px 20px 60px #9e9e9e,
+               -20px -20px 60px #ffffff;
+}
+
+
+
+
+.formGidRow{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.asideItem{
+  display: flex;
+  gap: 7px;
+  box-sizing: border-box;
+  position: relative;
+  padding: 12px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+
+.asideItem:hover{
+  display: flex;
+  gap: 7px;
+  background-color: rgba(0, 0, 0, 0.144);
+  box-sizing: border-box;
+  position: relative;
+  padding: 12px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.asideItemOpen{
+  position: absolute;
+  right: 15px;
+}
+
+.asideSubItem{
+  display: flex;
+  gap: 7px;
+  box-sizing: border-box;
+  padding: 10px 0px;
+  padding-left: 37px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+
+
+.asideSubItem:hover{
+  display: flex;
+  gap: 7px;
+  box-sizing: border-box;
+  padding: 10px 0px;
+  padding-left: 37px;
+  font-size: 15px;
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.144);
+}
+
+
+/*Factura para imprimir*/
+
+.headerFactura{
+  width: calc(100% - 15px);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  box-sizing: border-box;
+  position: relative;
+  font-size: 12px;
+}
+
+
+.headerCategoria{
+  position: absolute;
+  right: calc(50% - 30px);
+  height: 60px;
+  width: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  border: 1px solid #5a5a5a;
+  background-color: white;
+}
+
+.headerFacturaCol{
+  width: 100%;
+  border: 1px solid #5a5a5a;
+  box-sizing: border-box;
+  display: flex;
+  padding: 10px 0px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+
+.detallesVtoFactura{
+  width:  calc(100% - 15px);
+  margin: 0 auto;
+  border: 1px solid #5a5a5a;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.footerFactura{
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0px 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footerDetalle{
+  width: 100%;
+  box-sizing: border-box;
+  padding: 5px;
+  border: 1px solid #5a5a5a;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-size: 13px;
+}
