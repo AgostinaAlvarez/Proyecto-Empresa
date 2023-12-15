@@ -37,9 +37,14 @@ import { IoIosArrowDown } from "react-icons/io";
 import { IoIosArrowUp } from "react-icons/io";
 import { IoLogOutOutline } from "react-icons/io5";
 import { TbPigMoney } from "react-icons/tb";
+import { LiaClipboardListSolid } from "react-icons/lia";
+import { CiViewList } from "react-icons/ci";
+
+
 import PrintComponent from './PrintEx/PrintComponent';
 import Factura from './Print/Factura';
 import RemitosP from './Print/RemitosP';
+import Formularios from './Formularios/Formularios';
 
 
 const HomeScreen = () => {
@@ -159,15 +164,23 @@ const HomeScreen = () => {
             :
             <></>
           }
+          <div className='asideItem' onClick={()=>{navigate('/formularios')}}>
+            <LiaClipboardListSolid/>
+            <span>Formularios</span>
+          </div>
+          <div className='asideItem' onClick={()=>{navigate('/formularios')}}>
+            <CiViewList/>
+            <span>Presupuestos</span>
+          </div>
           <div className='asideItem' onClick={()=>{navigate('/bancos')}}>
             <BsBank/>
             <span>Banco</span>
-            
           </div>
           <div className='asideItem' onClick={()=>{navigate('/test')}}>
             <TbPigMoney/>
             <span>Capital</span>
           </div>
+          
         </aside>
         <div className='mainView'>
           <Routes>
@@ -202,6 +215,11 @@ const HomeScreen = () => {
             <Route path='/facturasdeproveedores' element={<FacturasDeProveedores/>}/>
             <Route path='/facturasdeproveedores/nueva' element={<NuevaFacturaDeProveedor/>}/>
             <Route path='/pagos/nuevo' element={<NuevoPago/>}/>
+
+            {/*Formularios*/}
+
+            <Route path='/formularios' element={<Formularios/>}/>
+
             {/** */}
             <Route path='/notasDeDebito' element={<NotasDeDebito/>}/>
             <Route path='/notasDeCredito' element={<NotasDeCredito/>}/>

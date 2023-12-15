@@ -74,10 +74,10 @@ const DetalleProducto = () => {
                     <td style={{textAlign:"center"}}>{productDetails.unidadDeMedida}</td>
                     <td style={{textAlign:"center"}}>${productDetails.costoInicial}</td>
                     <td style={{textAlign:"center"}}>{productDetails.impuesto}%</td>
-                    <td style={{textAlign:"center"}}>${productDetails.precioBase}</td>
+                    <td style={{textAlign:"center"}}>${productDetails.precioBase.toFixed(2)}</td>
                     <td style={{textAlign:"center"}}>{productDetails.deposito}</td>
-                    <td style={{textAlign:"center"}}>${productDetails.precioTotal}</td>
-                    <td style={{textAlign:"center"}}>${productDetails.precioTotal - productDetails.costoInicial}</td>
+                    <td style={{textAlign:"center"}}>${productDetails.precioTotal.toFixed(2)}</td>
+                    <td style={{textAlign:"center"}}>${(productDetails.precioTotal - productDetails.costoInicial).toFixed(2)}</td>
                   </tr>
                 </tbody>
               </table>

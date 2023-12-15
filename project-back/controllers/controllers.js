@@ -13,7 +13,7 @@ export const TesterFnc = async(req,res)=>{
 //
 
 
-export const getContacts = async() =>{
+export const getContacts = async(req,res) =>{
     try{
         const [contactos] = await connect.execute('SELECT * FROM contactos ORDER BY nombre');
         const [clientes] = await connect.execute('SELECT * FROM clientes JOIN contactos ON clientes.contactId = contactos.id');

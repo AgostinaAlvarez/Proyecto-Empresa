@@ -5,6 +5,7 @@ import { LuUsers } from "react-icons/lu";
 import NewContact from './NewContact';
 import { AiOutlineEye,AiOutlineEdit,AiOutlineSearch } from "react-icons/ai";
 import { AppContext } from '../../context/AppContext';
+import { MdOutlineRemoveRedEye } from "react-icons/md";
 
 const Todos = () => {
   const { contactos,setContactos } = useContext(AppContext);
@@ -121,7 +122,7 @@ const Todos = () => {
                   <td>{item.correo}</td>
                   <td>
                     <div style={{display:"flex",fontSize:16,gap:5,alignItems:"center",boxSizing:"border-box",padding:"0px 10px"}}>
-                      <AiOutlineEye/>
+                      <MdOutlineRemoveRedEye/>
                       <AiOutlineEdit/>
                     </div>
                   </td>

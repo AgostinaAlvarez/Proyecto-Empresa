@@ -5,6 +5,7 @@ import { LuUsers } from "react-icons/lu";
 import NewClient from './NewClient';
 import { AiOutlineEye,AiOutlineEdit,AiOutlineSearch } from "react-icons/ai";
 import { AppContext } from '../../context/AppContext';
+import { MdOutlineRemoveRedEye } from "react-icons/md";
 
 const Clientes = () => {
   const { clientes } = useContext(AppContext);
@@ -120,7 +121,7 @@ const Clientes = () => {
                   <td>{item.correo}</td>
                   <td>
                     <div style={{display:"flex",fontSize:16,gap:5,alignItems:"center",boxSizing:"border-box",padding:"0px 10px"}}>
-                      <AiOutlineEye/>
+                      <MdOutlineRemoveRedEye/>
                       <AiOutlineEdit/>
                     </div>
                   </td>
