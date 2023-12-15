@@ -1,45 +1,16 @@
-import e, { Router, json } from "express"
+import { Router, json } from "express"
 import { connect } from "../db/db.js";
+import { TesterFnc, getContacts } from "../controllers/controllers.js";
 
 
 const route = Router()
 
-route.get('/',async(req,res)=>{
-    const [rows] = await connect.execute(`
-        SELECT * FROM proveedores JOIN contactos ON proveedores.contactId = contactos.id;
-    `);
-    console.log(rows)
-    console.log('respuesta');
-    res.send('hola').status(200)
-})
+route.get('/',TesterFnc)
+
+/////
+route.get('/api/getContacts',getContacts)
 
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/*
-                                        CONTACTOS
-
-*/
-
-/*Obtener contactos*/
-route.get('/api/getContacts', async(req,res)=>{
-    try{
-        //const [rows] = await connect.execute('SELECT * FROM contactos ORDER BY nombre');
-        const [contactos] = await connect.execute('SELECT * FROM contactos ORDER BY nombre');
-        const [clientes] = await connect.execute('SELECT * FROM clientes JOIN contactos ON clientes.contactId = contactos.id');
-        const [proveedores] = await connect.execute('SELECT * FROM proveedores JOIN contactos ON proveedores.contactId = contactos.id');
-        return res.status(200).json({ok:true,contactos,clientes,proveedores});
-    }catch(err){
-        return res.status(400).json({ok:false,message:err});
-    }
-})
-
-/*Eliminar contacto*/
-//route.delete('/api/deleteContact',async(res,res)=>{})
-
-/*Modificar un contacto*/
-//route.put('/api/updateContact',async(req,res)=>{})
-
-/*Crear un contacto*/
 route.post('/api/createContact',async(req,res)=>{
     const { id,idType, nombre,condicionIVA,localidad,domicilio,codigoPostal,correo,celular,telefono1,telefono2,categoria } = req.body;
     try{
@@ -62,15 +33,7 @@ route.post('/api/createContact',async(req,res)=>{
     }
 })
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/*
-                                    PRODUCTOS
-*/
-
-//Ver todos los productos
 route.get('/api/getProducts',async(req,res)=>{
     try{
         const [productos] = await connect.execute('SELECT * FROM productos ORDER BY nombre')
@@ -104,7 +67,6 @@ function ordenarFechas(arrayDeObjetos) {
     return arrayDeObjetos;
 }
 
-//Buscar un producto
 route.get('/api/producto/:id',async(req,res)=>{
     const id = req.params.id
     try{
@@ -118,14 +80,6 @@ route.get('/api/producto/:id',async(req,res)=>{
     }
 })
 
-//Modificar un producto
-//route.put('/api/updateProduct',async(req,res)=>{})
-
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/*
-                            DEPOSITOS/ALMACENES
-*/
 
 route.get('/api/getWarehouse',async(req,res)=>{
     try{
@@ -135,11 +89,6 @@ route.get('/api/getWarehouse',async(req,res)=>{
         return res.status(400).json({ok:false})
     }
 })
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/*
-            FACTURAS
-*/
 
 route.get('/api/numeracionFacturas',async (req,res)=>{
     try{
@@ -210,10 +159,6 @@ route.get('/api/getFacturasTest',async(req,res)=>{
 })
 
 
-///////////////////////////////////////////////////////////////////////
-/*
-                Ajustes de inventario
-*/
 
 route.get('/api/ajustesDeInventario',async(req,res)=>{
     try{
@@ -244,8 +189,6 @@ route.post('/api/ajusteDeInventario',async(req,res)=>{
     }
 })
 
-//////////////////////////VENDEDORES
-
 route.get('/api/vendedores',async(req,res)=>{
     try{
         const [vendedores] = await connect.execute('SELECT * FROM vendedores');
@@ -255,9 +198,6 @@ route.get('/api/vendedores',async(req,res)=>{
     }
 })
 
-///////////////////////REMITOS
-
-
 route.get('/api/remitos',async(req,res)=>{
     try{
         const [ remitos ] = await connect.execute('SELECT remitos.id AS idRemito, contactos.nombre, remitos.creacion, remitos.vencimiento, remitos.estado, remitos.concepto, remitos.total, contactos.id FROM remitos INNER JOIN contactos WHERE contactos.id = remitos.contactId ORDER BY creacion DESC')
@@ -266,8 +206,6 @@ route.get('/api/remitos',async(req,res)=>{
         return res.status(400).json({ok:false})
     }
 })
-
-//remitos asociados
 
 route.get('/api/remitosAsociados/:id',async(req,res)=>{
     const param = req.params.id;
@@ -291,8 +229,6 @@ route.get('/api/detalleRemitoFacturar/:id',async(req,res)=>{
     }
 })
 
-
-
 route.get('/api/detalleRemito/:id',async(req,res)=>{
     const id = req.params.id;
     try{
@@ -306,8 +242,6 @@ route.get('/api/detalleRemito/:id',async(req,res)=>{
         return res.status(400).json({ok:false})
     }
 })
-
-//Asociar remito
 
 route.post('/api/asociarRemitoFactura',async(req,res)=>{
     const {idFactura,idRemito} = req.body;
@@ -356,7 +290,6 @@ route.post('/api/nuevoRemito',async(req,res)=>{
 })
 
 
-/////////////////////////COBRANZAS
 route.get('/api/cobranzas',async(req,res)=>{
     try{
         const [ cobranzas ] = await connect.execute(`
@@ -392,8 +325,6 @@ route.post('/api/cobranzas',async(req,res)=>{
 })
 
 
-/////////////////////////////////BANCOS
-
 route.get('/api/bancos',async(req,res)=>{
     try{
         const [ bancos ] = await connect.execute('SELECT * FROM bancos')
@@ -402,8 +333,6 @@ route.get('/api/bancos',async(req,res)=>{
         return res.status(400).json({ok:false})
     }
 })
-
-////////////////////////BALANCE
 
 route.get('/api/balance',async(req,res)=>{
     try{
@@ -460,9 +389,6 @@ route.get('/api/facturasdeproveedores',async(req,res)=>{
     }
 })
 
-/*
-total,montoPagado,montoPendiente,contactId,tipo,condicion,concepto,estado,tipoDePlazo,fecha,vencimiento,items
-*/
 
 
 route.post('/api/facturasdeproveedores',async(req,res)=>{
@@ -478,8 +404,6 @@ route.post('/api/facturasdeproveedores',async(req,res)=>{
     }
 })
 
-
-/////PAGOS
 route.post('/api/pagos',async(req,res)=>{
     const { id,total,fecha,metodoDePago,ctaBancaria,concepto,valor,impuesto,cantidad,observaciones,idFactura } = req.body;
     try{

@@ -6,7 +6,7 @@ export const AppContext = createContext();
 
 export const AppContextProvider = (props) =>{
   
-  const [ logged,setLogged ] = useState(false);
+  const [ logged,setLogged ] = useState(true);
   const [ contactos,setContactos ] = useState([]);
   const [ clientes,setClientes ] = useState([]);
   const [ proveedores,setProveedores ] = useState([]);
