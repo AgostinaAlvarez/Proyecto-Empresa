@@ -1,6 +1,7 @@
 import { connect } from "../db/db.js";
 
 
+//
 export const TesterFnc = async(req,res)=>{
     const [rows] = await connect.execute(`
         SELECT * FROM proveedores JOIN contactos ON proveedores.contactId = contactos.id;
