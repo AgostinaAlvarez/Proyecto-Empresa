@@ -39,12 +39,22 @@ import { IoLogOutOutline } from "react-icons/io5";
 import { TbPigMoney } from "react-icons/tb";
 import { LiaClipboardListSolid } from "react-icons/lia";
 import { CiViewList } from "react-icons/ci";
+import { BsGraphUp } from "react-icons/bs";
+import { TbAbacus } from "react-icons/tb";
 
 
 import PrintComponent from './PrintEx/PrintComponent';
 import Factura from './Print/Factura';
 import RemitosP from './Print/RemitosP';
 import Formularios from './Formularios/Formularios';
+import Presupuestos from './Presupuestos/Presupuestos';
+import Capital from './Capital/Capital';
+import Analisis from './Analisis/Analisis';
+import Contabilidad from './Contabilidad/Contabilidad';
+import LibroDiario from './Contabilidad/LibroDiario';
+import LibroMayor from './Contabilidad/LibroMayor';
+import SaldosMensuales from './Contabilidad/SaldosMensuales';
+import BalanceDeSumSal from './Contabilidad/BalanceDeSumSal';
 
 
 const HomeScreen = () => {
@@ -168,7 +178,7 @@ const HomeScreen = () => {
             <LiaClipboardListSolid/>
             <span>Formularios</span>
           </div>
-          <div className='asideItem' onClick={()=>{navigate('/formularios')}}>
+          <div className='asideItem' onClick={()=>{navigate('/presupuestos')}}>
             <CiViewList/>
             <span>Presupuestos</span>
           </div>
@@ -176,9 +186,17 @@ const HomeScreen = () => {
             <BsBank/>
             <span>Banco</span>
           </div>
-          <div className='asideItem' onClick={()=>{navigate('/test')}}>
+          <div className='asideItem' onClick={()=>{navigate('/capital')}}>
             <TbPigMoney/>
             <span>Capital</span>
+          </div>
+          <div className='asideItem' onClick={()=>{navigate('/contabilidad')}}>
+            <TbAbacus/>
+            <span>Contabilidad</span>
+          </div>
+          <div className='asideItem' onClick={()=>{navigate('/analisis')}}>
+            <BsGraphUp/>
+            <span>Analisis</span>
           </div>
           
         </aside>
@@ -219,6 +237,21 @@ const HomeScreen = () => {
             {/*Formularios*/}
 
             <Route path='/formularios' element={<Formularios/>}/>
+            {/*Presupuestos*/}
+            <Route path='/presupuestos' element={<Presupuestos/>}/>
+
+            {/*Capital*/}
+            <Route path='/capital' element={<Capital/>}/>
+
+            {/*Analisis*/}
+            <Route path='/analisis' element={<Analisis/>}/>
+
+            {/*Contabilidad*/}
+            <Route path='/contabilidad' element={<Contabilidad/>}/>
+            <Route path='/libro-diario' element={<LibroDiario/>}/>
+            <Route path='/libro-mayor' element={<LibroMayor/>}/>
+            <Route path='/saldos-mensuales' element={<SaldosMensuales/>}/>
+            <Route path='/balance-de-sumas-y-saldos' element={<BalanceDeSumSal/>}/>
 
             {/** */}
             <Route path='/notasDeDebito' element={<NotasDeDebito/>}/>

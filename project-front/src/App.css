@@ -474,3 +474,28 @@ th{
   align-items: flex-end;
   font-size: 13px;
 }
+
+.contabilidadGrid{
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 10px;
+}
+
+.contabilidadItem{
+  background-color: #7ac3ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 10px;
+  padding: 20px;
+  font-size: 19px;
+  height: 150px;
+
+}
+
+
+.contabilidadItem:hover{
+  background-color: #39A7FF;
+}
