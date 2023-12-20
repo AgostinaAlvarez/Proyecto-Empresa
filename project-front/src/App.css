@@ -41,6 +41,27 @@
 
 /*homescreen*/
 
+.homeMain{
+  width: 100%;
+  background-color: red;
+  position: relative;
+  display: flex;
+}
+
+.homeMainContent{
+  width: calc(100% - 350px);
+  padding-bottom: 50px;
+}
+
+.homeMainAside{
+  width: 350px;
+  height: calc(100vh - 55px);
+  background-color: blue;
+  position: fixed;
+  right: 10px;
+  top: 50px;
+}
+
 
 .header{
   height: 40px;
@@ -267,7 +288,7 @@ th{
 
 .formGrid{
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1.5fr;
   gap: 15px;
 }
 
@@ -329,12 +350,24 @@ th{
   justify-content: center;
 }
 
-.cardBancos{
+
+.bancosGrid{
   width: 90%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+}
+
+.cardBancos{
+  width: 100%;
   box-sizing: border-box;
-  padding: 20px;
-  margin: 10px auto;
+  padding: 40px;
   border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  position: relative;
+  justify-content: space-between;
 }
 
 .cardShadow{
@@ -498,4 +531,59 @@ th{
 
 .contabilidadItem:hover{
   background-color: #39A7FF;
+}
+
+.nuevoAsientoContainer{
+  width: 100%;
+  height: calc(100% - 230px);
+  overflow-y: scroll;
+  background-color: red;
+}
+
+
+.nuevoAsientoContainer::-webkit-scrollbar {
+  width: 8px; /* Ancho del scrollbar */
+}
+
+.nuevoAsientoContainer::-webkit-scrollbar-thumb {
+  background-color: #b6b6b6; /* Color del thumb (agarre) */
+  border-radius: 8px; /* Borde redondeado del thumb */
+}
+  
+.nuevoAsientoContainer::-webkit-scrollbar-track {
+  background-color: #fff; /* Color del track (rastro) */
+  border-radius: 8px; /* Borde redondeado del track */
+}
+
+
+.nuevoAsientoOpt{
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid black;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.nuevoAsientoOptItem{
+  display: flex;
+  flex-direction: column;
+}
+
+.nuevoLBFilerCont{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  padding: 20px;
+  background-color: #9e9e9e;
+  box-sizing: border-box;
+}
+
+.cardHome{
+  width: 90%;
+  box-sizing: border-box;
+  padding: 20px;
+  margin: 10px auto;
+  border-radius: 10px;
 }

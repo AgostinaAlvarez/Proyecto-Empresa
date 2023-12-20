@@ -199,141 +199,158 @@ const Home = () => {
         <div>Esperando</div>
         :
         <>
-          <HeaderSection
-            name={'Inicio'}
-            IconS={<FaHome style={{fontSize:36}}/>}
-          />
-          <div className='cardBancos cardShadow' style={{display:"flex",flexDirection:"column",alignItems:"center",width:"780px",marginBottom:"30px"}}>
-            <div>Capital Actual</div>
-            <span style={{fontSize:30}}>${(ingresos+montoDeInversion-gastos).toFixed(2)}</span>
-          </div>
+          {
+            /*
+            */
+          }
+          <div className='homeMainContent'>
+            <HeaderSection
+              name={'Inicio'}
+              IconS={<FaHome style={{fontSize:36}}/>}
+            />
+            <div className='cardHome cardShadow' style={{display:"flex",flexDirection:"column",alignItems:"center",width:"780px",marginBottom:"30px"}}>
+              <div>Capital Actual</div>
+              <span style={{fontSize:30}}>${(ingresos+montoDeInversion-gastos).toFixed(2)}</span>
+            </div>
+            <div className='formGrid' style={{width:"100%",
+            border:"none",
+            boxSizing:"border-box",alignItems:"end",margin:"70px 0"}}>
+              <div style={{height:"100%",display:"flex",flexDirection:"column",justifyContent:"center"}}>
+                <div className='cardHome cardShadow' style={{color:"#379237"}}>
+                  <div style={{marginBottom:10,color:"black"}}>Ingresos</div>
+                  <div style={{fontSize:25}}>${ingresos.toFixed(2)}</div>
+                </div>
+                <div className='cardHome cardShadow' style={{color:"#FF7000"}}>
+                  <div style={{marginBottom:10,color:"black"}}>Egresos</div>
+                  <div style={{fontSize:25}}>${gastos.toFixed(2)}</div>
+                </div>
+                <div className='cardHome cardShadow' style={{color:"#FFA41B"}}>
+                  <div style={{marginBottom:10,color:"black"}}>Capital Iniciall</div>
+                  <div style={{fontSize:25}}>${montoDeInversion.toFixed(2)}</div>
+                </div>
+              </div>
+              <div>
+                <div style={{height:70, 
+                  //backgroundColor:"green",
+                  display:"flex",alignItems:"center",justifyContent:"center",gap:10}}>
+                  <div style={{display:"flex",flexDirection:"column",}}>
+                    <span>Desde</span>
+                    <DatePicker
+                      selected={selectedDate}
+                      onChange={handleDateChange}
+                      dateFormat="dd/MM/yyyy" // Puedes personalizar el formato de la fecha
+                    />
+                  </div>
+                  <div style={{display:"flex",flexDirection:"column",}}>
+                    <span>Hasta</span>
 
 
-          <div className='formGrid' style={{width:"100%",
-          border:"none",
-          boxSizing:"border-box",alignItems:"end",margin:"70px 0"}}>
-            <div style={{height:"100%",display:"flex",flexDirection:"column",justifyContent:"center"}}>
-              <div className='cardBancos cardShadow' style={{color:"#379237"}}>
-                <div style={{marginBottom:10,color:"black"}}>Ingresos</div>
-                <div style={{fontSize:30}}>${ingresos.toFixed(2)}</div>
-              </div>
-              <div className='cardBancos cardShadow' style={{color:"#FF7000"}}>
-                <div style={{marginBottom:10,color:"black"}}>Egresos</div>
-                <div style={{fontSize:30}}>${gastos.toFixed(2)}</div>
-              </div>
-              <div className='cardBancos cardShadow' style={{color:"#FFA41B"}}>
-                <div style={{marginBottom:10,color:"black"}}>Capital Iniciall</div>
-                <div style={{fontSize:30}}>${montoDeInversion.toFixed(2)}</div>
+                    <DatePicker
+                      selected={selectedDate2}
+                      onChange={handleDateChange2}
+                      dateFormat="dd/MM/yyyy" // Puedes personalizar el formato de la fecha
+                    />
+                  </div>
+                  <div style={{display:"flex",alignItems:"flex-end",height:"42.78px"}}>
+                    <button>Filtrar</button>
+                  </div>
+                </div>
+                {
+                  
+                  watch === true ?
+                  <LineChart data1={data}/>
+                  :
+                  <></>
+                  
+                }
+                
               </div>
             </div>
-            <div>
-              <div style={{height:70, 
-                //backgroundColor:"green",
-                display:"flex",alignItems:"center",justifyContent:"center",gap:10}}>
-                <div style={{display:"flex",flexDirection:"column",}}>
-                  <span>Desde</span>
-                  <DatePicker
-                    selected={selectedDate}
-                    onChange={handleDateChange}
-                    dateFormat="dd/MM/yyyy" // Puedes personalizar el formato de la fecha
-                  />
-                </div>
-                <div style={{display:"flex",flexDirection:"column",}}>
-                  <span>Hasta</span>
-
-
-                  <DatePicker
-                    selected={selectedDate2}
-                    onChange={handleDateChange2}
-                    dateFormat="dd/MM/yyyy" // Puedes personalizar el formato de la fecha
-                  />
-                </div>
-                <div style={{display:"flex",alignItems:"flex-end",height:"42.78px"}}>
-                  <button>Filtrar</button>
-                </div>
-              </div>
-              {
-                
-                watch === true ?
-                <LineChart data1={data}/>
-                :
-                <></>
-                
-              }
-              
+          </div>
+          <aside className='homeMainAside'>
+            <div>Calendario</div>
+            <div>Tareas programadas</div>
+          </aside>
+          {
+            /*
+            
+            
+            
+            
+            
+            <div className='cardHome cardShadow' style={{display:"flex",flexDirection:"column",alignItems:"center",width:"780px",marginTop:"30px"}}>
+              <div style={{marginBottom:10}}>Ganacia neta</div>
+              <span style={{fontSize:30}}>${gananciaNeta.toFixed(2)}</span>
             </div>
-          </div>
-          <div className='cardBancos cardShadow' style={{display:"flex",flexDirection:"column",alignItems:"center",width:"780px",marginTop:"30px"}}>
-            <div style={{marginBottom:10}}>Ganacia neta</div>
-            <span style={{fontSize:30}}>${gananciaNeta.toFixed(2)}</span>
-          </div>
-          <div className='cardBancos cardShadow' style={{display:"flex",flexDirection:"column",alignItems:"center",width:"780px",marginTop:"30px"}}>
-            <div style={{marginBottom:10}}>Capital para reinversion</div>
-            <span style={{fontSize:30}}>${capitalParaReinversion.toFixed(2)}</span>
-          </div>
-
-          <div className='cardBancos cardShadow' style={{display:"flex",flexDirection:"column",alignItems:"center",width:"780px",marginTop:"30px"}}>
-            <div style={{marginBottom:10,fontWeight:"600"}}>ROI (Retorno de inversion)</div>
-            <div style={{marginBottom:5}}>ROI = (Ganancia Neta / Capital Inicial) * 100</div>
-            <div style={{marginBottom:10}}>ROI = (${gananciaNeta.toFixed(2)} / ${montoDeInversion} ) * 100</div>
-            <span style={{fontSize:30}}>{((gananciaNeta/montoDeInversion)*100).toFixed(2)} %</span>
-          </div>
-
-          <div className='cardBancos cardShadow' style={{display:"flex",flexDirection:"column",alignItems:"center",width:"780px",marginTop:"30px"}}>
-            <div style={{marginBottom:10,fontWeight:"600"}}>Margen de Beneficio Bruto</div>
-            <div style={{marginBottom:5}}>Margen de Beneficio Bruto = (Ingresos - Costo de los Bienes Vendidos) * 100 / Ingresos</div>
-            <div style={{marginBottom:10}}>Margen de Beneficio Bruto = ( ${ingresos.toFixed(2)} - ${costoDeLosBienesVendidos.toFixed(2)} ) * 100 / ${ingresos.toFixed(2)}</div>
-            <span style={{fontSize:30}}>{ ((ingresos - costoDeLosBienesVendidos)/ingresos * 100).toFixed(2) } %</span>
-          </div>
-          
-
-          <div className='cardBancos cardShadow' style={{display:"flex",flexDirection:"column",alignItems:"center",width:"780px",marginTop:"30px"}}>
-            <div style={{marginBottom:10,fontWeight:"600"}}>Margen de Beneficio Neto</div>
-            <div style={{marginBottom:5}}> Margen de Beneficio Neto = (Ganancia Neta * 100) / Ingresos Totales</div>
-            <div style={{marginBottom:10}}>ROI = (${gananciaNeta.toFixed(2)} / ${montoDeInversion} ) * 100</div>
-            <span style={{fontSize:30}}>{((gananciaNeta * 100)/ingresos).toFixed(2)}%</span>
-          </div>
-
-          <div>Productos facturados </div>
-          <table className='tableFactura'>
-            <thead>
-              <tr>
-                <th>Costo</th>
-                <th>Precio de venta</th>
-                <th>Descuento Aplicado x unidad</th>
-                <th>Cantidad Facturada</th>
-                <th>Precio x unidad</th>
-                <th>Ganancia Neta x unidad</th>
-                <th>Ganancia Neta TOTAL</th>
-                <th>Total facturado SIN impuesto</th>
-              </tr>
-            </thead>
-            <tbody>
-              {
-                gananciasPorFacturas.length === 0 ?
-                <></>
-                :
-                <>
-                  {
-                    
-                    gananciasPorFacturas.map((item,index)=>
-                    <tr key={index}>
-                      <td>${item.costo.toFixed(2)}</td>
-                      <td>${item.precioDeVenta.toFixed(2)}</td>
-                      <td>${((item.descuento)/item.cantidad).toFixed(2)}</td>
-                      <td>{item.cantidad}</td>
-                      <td>${item.precioPorProducto.toFixed(2)}</td>
-                      <td>${item.gananciaNeta.toFixed(2)}</td>
-                      <td>${(item.gananciaNeta * item.cantidad).toFixed(2)}</td>
-                      <td>${item.total.toFixed(2)}</td>
-                    </tr>
-                    )
-                    
-                  }
-                </>
-              }
-            </tbody>
-          </table>
+            <div className='cardHome cardShadow' style={{display:"flex",flexDirection:"column",alignItems:"center",width:"780px",marginTop:"30px"}}>
+              <div style={{marginBottom:10}}>Capital para reinversion</div>
+              <span style={{fontSize:30}}>${capitalParaReinversion.toFixed(2)}</span>
+            </div>
+  
+            <div className='cardHome cardShadow' style={{display:"flex",flexDirection:"column",alignItems:"center",width:"780px",marginTop:"30px"}}>
+              <div style={{marginBottom:10,fontWeight:"600"}}>ROI (Retorno de inversion)</div>
+              <div style={{marginBottom:5}}>ROI = (Ganancia Neta / Capital Inicial) * 100</div>
+              <div style={{marginBottom:10}}>ROI = (${gananciaNeta.toFixed(2)} / ${montoDeInversion} ) * 100</div>
+              <span style={{fontSize:30}}>{((gananciaNeta/montoDeInversion)*100).toFixed(2)} %</span>
+            </div>
+  
+            <div className='cardHome cardShadow' style={{display:"flex",flexDirection:"column",alignItems:"center",width:"780px",marginTop:"30px"}}>
+              <div style={{marginBottom:10,fontWeight:"600"}}>Margen de Beneficio Bruto</div>
+              <div style={{marginBottom:5}}>Margen de Beneficio Bruto = (Ingresos - Costo de los Bienes Vendidos) * 100 / Ingresos</div>
+              <div style={{marginBottom:10}}>Margen de Beneficio Bruto = ( ${ingresos.toFixed(2)} - ${costoDeLosBienesVendidos.toFixed(2)} ) * 100 / ${ingresos.toFixed(2)}</div>
+              <span style={{fontSize:30}}>{ ((ingresos - costoDeLosBienesVendidos)/ingresos * 100).toFixed(2) } %</span>
+            </div>
+            
+  
+            <div className='cardHome cardShadow' style={{display:"flex",flexDirection:"column",alignItems:"center",width:"780px",marginTop:"30px"}}>
+              <div style={{marginBottom:10,fontWeight:"600"}}>Margen de Beneficio Neto</div>
+              <div style={{marginBottom:5}}> Margen de Beneficio Neto = (Ganancia Neta * 100) / Ingresos Totales</div>
+              <div style={{marginBottom:10}}>ROI = (${gananciaNeta.toFixed(2)} / ${montoDeInversion} ) * 100</div>
+              <span style={{fontSize:30}}>{((gananciaNeta * 100)/ingresos).toFixed(2)}%</span>
+            </div>
+  
+            <div>Productos facturados </div>
+            <table className='tableFactura'>
+              <thead>
+                <tr>
+                  <th>Costo</th>
+                  <th>Precio de venta</th>
+                  <th>Descuento Aplicado x unidad</th>
+                  <th>Cantidad Facturada</th>
+                  <th>Precio x unidad</th>
+                  <th>Ganancia Neta x unidad</th>
+                  <th>Ganancia Neta TOTAL</th>
+                  <th>Total facturado SIN impuesto</th>
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  gananciasPorFacturas.length === 0 ?
+                  <></>
+                  :
+                  <>
+                    {
+                      
+                      gananciasPorFacturas.map((item,index)=>
+                      <tr key={index}>
+                        <td>${item.costo.toFixed(2)}</td>
+                        <td>${item.precioDeVenta.toFixed(2)}</td>
+                        <td>${((item.descuento)/item.cantidad).toFixed(2)}</td>
+                        <td>{item.cantidad}</td>
+                        <td>${item.precioPorProducto.toFixed(2)}</td>
+                        <td>${item.gananciaNeta.toFixed(2)}</td>
+                        <td>${(item.gananciaNeta * item.cantidad).toFixed(2)}</td>
+                        <td>${item.total.toFixed(2)}</td>
+                      </tr>
+                      )
+                      
+                    }
+                  </>
+                }
+              </tbody>
+            </table>
+            */
+          }
         </>
       }
     </>

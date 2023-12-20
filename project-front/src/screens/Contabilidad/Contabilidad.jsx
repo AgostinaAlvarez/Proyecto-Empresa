@@ -20,7 +20,7 @@ const Contabilidad = () => {
         <div className='contabilidadItem' onClick={()=>{navigate('/libro-mayor')}}>Libro Mayor</div>
         <div className='contabilidadItem' onClick={()=>{navigate('/balance-de-sumas-y-saldos')}}>Balance de sumas y saldos</div>
         <div className='contabilidadItem' onClick={()=>{navigate('/saldos-mensuales')}}>Saldos mensuales</div>
-        <div className='contabilidadItem' >Asientos contables</div>
+        <div className='contabilidadItem' onClick={()=>{navigate('/asientos-contables')}} >Asientos contables</div>
         <div className='contabilidadItem' >Estado de resultados</div>
       </div>
     </>

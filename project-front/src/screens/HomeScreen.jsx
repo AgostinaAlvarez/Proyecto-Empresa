@@ -55,6 +55,10 @@ import LibroDiario from './Contabilidad/LibroDiario';
 import LibroMayor from './Contabilidad/LibroMayor';
 import SaldosMensuales from './Contabilidad/SaldosMensuales';
 import BalanceDeSumSal from './Contabilidad/BalanceDeSumSal';
+import AsientoContable from './Contabilidad/AsientoContable';
+import NuevoLibroDiario from './Contabilidad/LibroDiario/NuevoLibroDiario';
+import ImprimirLibroDiario from './Contabilidad/LibroDiario/ImprimirLibroDiario';
+import NuevoLibroMayor from './Contabilidad/LibroMayor/NuevoLibroMayor';
 
 
 const HomeScreen = () => {
@@ -249,10 +253,16 @@ const HomeScreen = () => {
             {/*Contabilidad*/}
             <Route path='/contabilidad' element={<Contabilidad/>}/>
             <Route path='/libro-diario' element={<LibroDiario/>}/>
+            <Route path='/libro-diario/nuevo' element={<NuevoLibroDiario/>}/>
+            <Route path='/libro-diario/imprimir' element={<ImprimirLibroDiario/>}/>
+
             <Route path='/libro-mayor' element={<LibroMayor/>}/>
+            <Route path='/libro-mayor/nuevo' element={<NuevoLibroMayor/>}/>
+            
+            
             <Route path='/saldos-mensuales' element={<SaldosMensuales/>}/>
             <Route path='/balance-de-sumas-y-saldos' element={<BalanceDeSumSal/>}/>
-
+            <Route path='/asientos-contables' element={<AsientoContable/>}/>
             {/** */}
             <Route path='/notasDeDebito' element={<NotasDeDebito/>}/>
             <Route path='/notasDeCredito' element={<NotasDeCredito/>}/>

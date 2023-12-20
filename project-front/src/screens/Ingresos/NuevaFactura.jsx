@@ -198,11 +198,11 @@ const NuevaFactura = ({propiedad,contacto,productosF,remito,setOpen}) => {
         <div style={{display:"flex",flexDirection:"column",gap:8}}>
           <div style={{display:"flex",gap:30,alignItems:"center",fontSize:18}}>
             <span style={{width:200,textAlign:"right"}}>SubTotal</span>
-            <span>${subtotal}</span>
+            <span>${subtotal.toFixed(2)}</span>
           </div>
           <div style={{display:"flex",gap:30,alignItems:"center",fontSize:18}}>
             <span style={{width:200,textAlign:"right"}}>Bonificacion</span>
-            <span> - ${bonificacion}</span>
+            <span> - ${bonificacion.toFixed(2)}</span>
           </div>
           <div style={{display:"flex",gap:30,alignItems:"center",fontSize:18}}>
             <span style={{width:200,textAlign:"right"}}>Subtotal</span>
