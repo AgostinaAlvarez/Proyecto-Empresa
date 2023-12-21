@@ -1,128 +1,17 @@
-/* eslint-disable no-unused-vars */
-import React, { useContext, useEffect, useState } from 'react'
-import { MdTableView } from "react-icons/md";
-import HeaderSection from '../../../components/HeaderSection';
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { v4 as uuidv4 } from 'uuid';
-import Swal from 'sweetalert2';
-import { AppContext } from '../../../context/AppContext';
+import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
-
-const NuevoLibroDiario = () => {
-  const { librosDiarios,setLibrosDiarios } = useContext(AppContext)
-
-  const arr = [1,2,3,1,2,3,1,1,1,1,1,1,1]
-  const [rdos,setRdos] = useState(null);
+const DetalleLibroDiarios = () => {
+  const [ rdos,setRdos ] = useState(null)
   const navigate = useNavigate()
-  const [selectedDate, setSelectedDate] = useState(null);
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
-  };
-
-  const [selectedDate2, setSelectedDate2] = useState(null);
-  const handleDateChange2 = (date) => {
-    setSelectedDate2(date);
-  };
-
+  
   useEffect(() => {
-    console.log(1-null)
+    
   }, [])
   
-  async function getDatos (){
-    console.log(`${selectedDate.getFullYear()}-${String(selectedDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDate.getDate()).padStart(2, '0')}`)
-    console.log(`${selectedDate2.getFullYear()}-${String(selectedDate2.getMonth() + 1).padStart(2, '0')}-${String(selectedDate2.getDate()).padStart(2, '0')}`)
-    const fechaInicial = `${selectedDate.getFullYear()}-${String(selectedDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDate.getDate()).padStart(2, '0')}`
-    const fechaFinal = `${selectedDate2.getFullYear()}-${String(selectedDate2.getMonth() + 1).padStart(2, '0')}-${String(selectedDate2.getDate()).padStart(2, '0')}`
-    console.log(`http://localhost:3000/api/libroDiario/${fechaInicial}/${fechaFinal}`)
-    try{
-      const response = await axios.get(`http://localhost:3000/api/libroDiario/${fechaInicial}/${fechaFinal}`)
-      console.log(response.data.rdosContables)
-      setRdos(response.data.rdosContables)
-    }catch(err){
-      console.log(err)
-    }
-  }
-
-
-  async function crearLibroDiario (){
-    const id = uuidv4()
-    const fechaInicial = `${selectedDate.getFullYear()}-${String(selectedDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDate.getDate()).padStart(2, '0')}`
-    const fechaFinal = `${selectedDate2.getFullYear()}-${String(selectedDate2.getMonth() + 1).padStart(2, '0')}-${String(selectedDate2.getDate()).padStart(2, '0')}`
-    
-    const data = {id, fechaInicial,fechaFinal }
-    
-    console.log(data)
-    
-    try{
-      await axios.post(`http://localhost:3000/api/libroDiario`,data)
-    }catch(err){
-      Swal.fire({
-        title: "Hubo un error con el servidor! Intenta nuevamente mas tarde",
-        showClass: {
-          popup: `
-            animate__animated
-            animate__fadeInUp
-            animate__faster
-          `
-        },
-        hideClass: {
-          popup: `
-            animate__animated
-            animate__fadeOutDown
-            animate__faster
-          `
-        }
-      });
-
-      console.log(err)
-    }finally{
-      console.log('terminado')
-      setLibrosDiarios([...librosDiarios,data])
-      Swal.fire({
-        position: "top-end",
-        icon: "success",
-        title: "Libro Diario guardado!",
-        showConfirmButton: false,
-        timer: 1500
-      });
-      navigate('/libro-diario')
-    }
-  }
-
   return (
     <>
-      <HeaderSection
-        name='Nuevo Libro Diario'
-        IconS={<MdTableView style={{fontSize:28}}/>}
-        //actionName={'Nuevo Presupuestos'}
-        //action={newPresupuesto}
-      />
-      <div className='nuevoLBFilerCont'>
-        <div style={{display:"flex",gap:10,alignItems:"center"}}>
-            <span>Desde</span>
-            <DatePicker
-              selected={selectedDate}
-              onChange={handleDateChange}
-              dateFormat="dd/MM/yyyy" // Puedes personalizar el formato de la fecha
-            />
-        </div>
-        <div style={{display:"flex",gap:10,alignItems:"center"}}>
-            <span>Hasta</span>
-            <DatePicker
-              selected={selectedDate2}
-              onChange={handleDateChange2}
-              dateFormat="dd/MM/yyyy" // Puedes personalizar el formato de la fecha
-            />
-        </div>
-
-        <button style={{cursor:"pointer"}} onClick={()=>{getDatos()}}>Aceptar</button>
-      </div>
-
-      
-      {
+    {
         rdos === null ?
         <></>
         :
@@ -558,7 +447,6 @@ const NuevoLibroDiario = () => {
               </table>
               <div style={{height:"150px"}}></div>
               <div className='nuevoLBFilerCont' style={{position:"absolute",bottom:0,right:15,width:"calc(100% - 250px)",justifyContent:"center"}}>
-                <button onClick={()=>{crearLibroDiario()}}>Guardar</button>
                 <button onClick={()=>{navigate('/libro-diario/imprimir')}}>Imprimir</button>
               </div>
             </>
@@ -569,4 +457,4 @@ const NuevoLibroDiario = () => {
   )
 }
 
-export default NuevoLibroDiario
+export default DetalleLibroDiarios

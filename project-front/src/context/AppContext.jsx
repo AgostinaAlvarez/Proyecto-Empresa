@@ -32,6 +32,9 @@ export const AppContextProvider = (props) =>{
   const [ capital,setCapital ] = useState([])
   const [ montoDeInversion,setMontoDeInversion ] = useState(0)
   const [ gananciasPorFacturas,setGananciasPorFacturas ] = useState(0)
+  
+  const [ librosDiarios,setLibrosDiarios ] = useState([])
+
   /** */
   const [ watch,setWatch ] = useState(false)
   //** */
@@ -245,7 +248,7 @@ export const AppContextProvider = (props) =>{
       getFacturasDeProveedores,
       getCapital,
       getPagos,
-
+      librosDiarios,setLibrosDiarios,
       watch,setWatch
     }}>
       {props.children}

@@ -320,7 +320,80 @@ CREATE TABLE itemsFP(
   FOREIGN KEY (idFactura) REFERENCES facturasdeproveedores(nmro)
 );
 
+SELECT *
+FROM registro
+WHERE fecha BETWEEN '2023-11-20' AND '2023-12-05';
 
+
+select SUM((productosfacturados.precio*productosfacturados.cantidad)  * (productosfacturados.bonificacion/100)) AS bonificacion, SUM(((productosfacturados.precio*productosfacturados.cantidad) -  ((productosfacturados.precio*productosfacturados.cantidad)  * (productosfacturados.bonificacion/100))) * (productosfacturados.impuesto/100)) AS iva from productosfacturados WHERE idFactura = "4ec50d3d-df28-41a9-a6fe-a253527275b6";
+
+
+/*
+
+SELECT *
+FROM cobranzas
+WHERE fecha BETWEEN '2023-01-18' AND '2023-02-05' ORDER BY fecha ASC;
+
+
+
+SELECT * 
+FROM facturasdeventa 
+WHERE fecha BETWEEN '2023-01-18' AND '2023-02-05' ORDER BY fecha ASC
+;
+
+
+PARTE CONTAAAAABLEEEE
+
+
+SELECT facturasdeventa.fecha, facturasdeventa.condicion, "factura de venta" AS categoria,
+(facturasdeventa.total - SUM((productosfacturados.precio*productosfacturados.cantidad)  * (productosfacturados.bonificacion/100))) AS deudoresPorVenta,
+(facturasdeventa.total - SUM(((productosfacturados.precio*productosfacturados.cantidad) -  ((productosfacturados.precio*productosfacturados.cantidad)  * (productosfacturados.bonificacion/100))) * (productosfacturados.impuesto/100))) AS ventas,
+SUM(productosfacturados.precio*productosfacturados.cantidad) AS importeNetoGravado,
+SUM((productosfacturados.precio*productosfacturados.cantidad)  * (productosfacturados.bonificacion/100)) AS bonificacion, SUM(((productosfacturados.precio*productosfacturados.cantidad) -  ((productosfacturados.precio*productosfacturados.cantidad)  * (productosfacturados.bonificacion/100))) * (productosfacturados.impuesto/100)) AS iva from facturasdeventa INNER JOIN productosfacturados ON facturasdeventa.id = productosfacturados.idFactura WHERE facturasdeventa.id = ? ;
+
+
+SELECT facturasdeventa.fecha, facturasdeventa.condicion, "factura de venta" AS categoria,
+(facturasdeventa.total - SUM((productosfacturados.precio * productosfacturados.cantidad) * (productosfacturados.bonificacion / 100))) AS deudoresPorVenta,
+facturasdeventa.nmro AS nmroFact, facturasdeventa.tipo AS tipoFact,
+SUM(productosFacturados.costo * productosFacturados.cantidad) AS costoMercaderia,
+(facturasdeventa.total - SUM(((productosfacturados.precio * productosfacturados.cantidad) - ((productosfacturados.precio * productosfacturados.cantidad) * (productosfacturados.bonificacion / 100))) * (productosfacturados.impuesto / 100))) AS ventas,
+SUM(productosfacturados.precio * productosfacturados.cantidad) AS importeNetoGravado,
+SUM((productosfacturados.precio * productosfacturados.cantidad) * (productosfacturados.bonificacion / 100)) AS bonificacion,
+SUM(((productosfacturados.precio * productosfacturados.cantidad) - ((productosfacturados.precio * productosfacturados.cantidad) * (productosfacturados.bonificacion / 100))) * (productosfacturados.impuesto / 100)) AS iva
+FROM facturasdeventa
+INNER JOIN productosfacturados ON facturasdeventa.id = productosfacturados.idFactura
+WHERE facturasdeventa.id =
+
+
+facturas de proveedores:
+SELECT
+facturasdeproveedores.fecha, facturasdeproveedores.nmro AS nmroFact, facturasdeproveedores.tipo AS tipoFact, "facturas de proveedores" AS categoria, 
+facturasdeproveedores.concepto, facturasdeproveedores.total, 
+SUM((itemsfp.precio * itemsfp.cantidad) * (itemsfp.bonificacion / 100)) AS bonificacion, 
+SUM(((itemsfp.precio * itemsfp.cantidad) - ((itemsfp.precio * itemsfp.cantidad) * (itemsfp.bonificacion / 100))) * (itemsfp.impuesto / 100)) AS iva,
+(facturasdeproveedores.total - SUM((itemsfp.precio * itemsfp.cantidad) * (itemsfp.bonificacion / 100))) AS proveedores
+FROM facturasdeproveedores INNER JOIN itemsfp ON facturasdeproveedores.id = itemsfp.idFactura WHERE facturasdeproveedores.id = "322ec6a7-2d4c-4835-9475-2b17bff3f625";
+
+
+una propiedad "categoria"
+fecha
+condicion
+
+
+Mercaderia
+  IVA Credito Fiscal
+  Proveedores
+
+ 
+                                  DEBE           HABER
+                                __________________________ 
+Deudores por Venta             | 95657.07    |            |
+Descuentos Cedidos             | 9672.10     |            |
+        a IVA Debito Fiscal    |             |  18280.27  |
+        a ventas               |             |  87048.90  |
+
+
+*/
 
 
 /*
@@ -329,6 +402,79 @@ USE proyecto1;
 SET SQL_SAFE_UPDATES = 0;
 UPDATE facturasdeventa SET montoPendiente = total;
 select * from facturasdeventa;
+
+
+Como hago si esta factura es una compra de mercaderia ? Donde coloco la categoria "mercaderia"
+
+Factura de proveedores con IVA y bonificacion
++---------------------------------+------------+---------+
+|            Cuentas              |    Debe    |  Haber  |
++---------------------------------+------------+---------+
+| Proveedores                      | 154,000.00 |         |
+|    a IVA Débito Fiscal          |            |  4,000.00|
+| Descuentos obtenidos             |   7,700.00 |         |
+| Cuentas por Pagar                |            |151,300.00|
++---------------------------------+------------+---------+
+Pago de la factura:
++----------------------------------+------------+-----------+
+|            Cuentas               |    Debe    |  Haber    |
++----------------------------------+------------+-----------+
+| Cuentas por Pagar                | 151,300.00 |           |
+|                 Caja/Bancos      |            |151,300.00 |
++----------------------------------+------------+-----------+
+
+///Factura para mercaderia
+
++----------------------------------+------------+---------+
+|            Cuentas               |    Debe    |  Haber  |
++----------------------------------+------------+---------+
+| Inventario o Mercadería          | 154,000.00 |         |
+|    a IVA Débito Fiscal          |            |  4,000.00|
+| Descuentos obtenidos             |   7,700.00 |         |
+| Proveedores                      |            |151,300.00|
++----------------------------------+------------+---------+
+
++----------------------------------+------------+-----------+
+|            Cuentas               |    Debe    |  Haber    |
++----------------------------------+------------+-----------+
+| Proveedores                      | 151,300.00 |           |
+|                 Caja/Bancos      |            |151,300.00 |
++----------------------------------+------------+-----------+
+
+//////////////////////////////////////////
+
+
+
+
+Pago de la factura:
++----------------------------------+------------+-----------+
+|            Cuentas               |    Debe    |  Haber    |
++----------------------------------+------------+-----------+
+| Cuentas por Pagar                | 151,300.00 |           |
+|                 Caja/Bancos      |            |151,300.00 |
++----------------------------------+------------+-----------+
+
+
+
+Factura de venta:
++-----------------------+-------------+-------------+
+|     Cuentas           |    Debe     |    Haber    |
++-----------------------+-------------+-------------+
+| Deudores por Venta    |  95657.07   |             |
+| Descuentos Cedidos    |   9672.10   |             |
+|    a IVA Débito Fiscal|             |  18280.27   |
+|    a ventas           |             |  87048.90   |
++-----------------------+-------------+-------------+
+
+
+Pago de una factura de venta con deposito
++---------------------------------+------------+---------+
+|            Cuentas              |    Debe    |  Haber  |
++---------------------------------+------------+---------+
+| Caja/Bancos (BBVA)              | Monto      |         |
+| Deudores por Venta              |            |  Monto  |
++---------------------------------+------------+---------+
+
 
 
 */

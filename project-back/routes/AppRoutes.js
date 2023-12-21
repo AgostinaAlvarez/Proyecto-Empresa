@@ -385,7 +385,7 @@ route.get('/api/facturasdeproveedores',async(req,res)=>{
         `)
         return res.status(200).json({ok:true,facturas})
     }catch(err){
-        return res.status(400).json({ok:fasle})
+        return res.status(400).json({ok:false})
     }
 })
 
@@ -435,6 +435,133 @@ route.get('/api/pagos',async(req,res)=>{
         return res.status(200).json({ok:true,pagos})
     }catch(err){
         console.log(err)
+        return res.status(400).json({ok:false})
+    }
+})
+
+
+
+
+
+
+route.get('/api/libroDiario/:fechaInicio/:fechaFinal',async(req,res)=>{
+    console.log(req.params.fechaInicio)
+    console.log(req.params.fechaFinal)
+    try{
+        
+        const [ resFacturasVenta ] = await connect.execute(`SELECT id FROM facturasdeventa WHERE fecha BETWEEN '${req.params.fechaInicio}' AND '${req.params.fechaFinal}' ORDER BY fecha ASC`)
+        const [ resFacturasdeProveedores ] = await connect.execute(`SELECT id FROM facturasdeproveedores WHERE fecha BETWEEN '${req.params.fechaInicio}' AND '${req.params.fechaFinal}' ORDER BY fecha ASC`)
+        /*Pagos por factura: inner join:
+            DEVUELVE ESTO:
+            {
+                entidadBancaria,
+                tipoDeCtaBancaria,
+                monto,
+                fecha,
+                concepto (deposito, transferencia,etc),
+                categoria (pago de factura de proveedores),
+            }
+        */
+        const [ resPagosFP ] = await connect.execute(`SELECT bancos.entidad AS entidadBancaria, bancos.tipo AS tipoDeCtaBancaria, pagos.total AS monto, pagos.fecha, pagos.metodoDePago AS concepto, pagos.concepto AS categoria 
+        FROM pagos INNER JOIN bancos ON pagos.ctaBancaria = bancos.id WHERE concepto = "pago de factura de proveedores" AND fecha BETWEEN '${req.params.fechaInicio}' AND '${req.params.fechaFinal}' ORDER BY fecha ASC`)
+        
+        /*
+        Pagos no asociados a factura: busqueda exceptuando el concepto "pago de factura de proveedores"
+        {
+            categoria,
+            total,
+            fecha,
+            concepto,
+            bonificacion,
+            iva,
+            entidadBancaria,
+            tipoDeCtaBancaria
+        }
+        */
+        const [ resPagosAcr ] = await connect.execute(`SELECT "pago a acreedores varios" AS categoria,pagos.total,pagos.fecha,pagos.concepto,(pagos.valor * (pagos.bonificacion/100)) AS bonificacion,(pagos.valor * (pagos.impuesto/100)) AS iva, bancos.entidad AS entidadBancaria, bancos.tipo AS tipoDeCtaBancaria FROM pagos INNER JOIN bancos ON pagos.ctaBancaria = bancos.id WHERE pagos.concepto != "pago de factura de proveedores" AND pagos.fecha BETWEEN '${req.params.fechaInicio}' AND '${req.params.fechaFinal}' ORDER BY fecha ASC`)
+        
+        /*
+        Cobranzas asociadas a facturas de venta:
+
+        */
+        const [resCobranzasFV] = await connect.execute(`SELECT bancos.entidad AS entidadBancaria, bancos.tipo AS tipoDeCtaBancaria, cobranzas.total AS monto, cobranzas.fecha, cobranzas.metodoDePago AS concepto, cobranzas.concepto AS categoria
+        FROM cobranzas INNER JOIN bancos ON cobranzas.ctaBancaria = bancos.id WHERE concepto = "cobro de factura de venta" AND fecha BETWEEN '${req.params.fechaInicio}' AND '${req.params.fechaFinal}' ORDER BY fecha ASC;`)
+
+        const rdosFv = [];
+        const rdosFP = [];
+
+        for (const element of resFacturasVenta) {
+            const [data] = await connect.execute(`
+                SELECT facturasdeventa.fecha, facturasdeventa.condicion, "factura de venta" AS categoria,
+                (facturasdeventa.total - SUM((productosfacturados.precio * productosfacturados.cantidad) * (productosfacturados.bonificacion / 100))) AS deudoresPorVenta,
+                facturasdeventa.nmro AS nmroFact, facturasdeventa.tipo AS tipoFact,
+                SUM(productosFacturados.costo * productosFacturados.cantidad) AS costoMercaderia,
+                (facturasdeventa.total - SUM(((productosfacturados.precio * productosfacturados.cantidad) - ((productosfacturados.precio * productosfacturados.cantidad) * (productosfacturados.bonificacion / 100))) * (productosfacturados.impuesto / 100))) AS ventas,
+                SUM(productosfacturados.precio * productosfacturados.cantidad) AS importeNetoGravado,
+                SUM((productosfacturados.precio * productosfacturados.cantidad) * (productosfacturados.bonificacion / 100)) AS bonificacion,
+                SUM(((productosfacturados.precio * productosfacturados.cantidad) - ((productosfacturados.precio * productosfacturados.cantidad) * (productosfacturados.bonificacion / 100))) * (productosfacturados.impuesto / 100)) AS iva
+                FROM facturasdeventa
+                INNER JOIN productosfacturados ON facturasdeventa.id = productosfacturados.idFactura
+                WHERE facturasdeventa.id = '${element.id}'
+            `);
+            rdosFv.push(data[0]);
+        }
+        for (const element of resFacturasdeProveedores) {
+            const [data] = await connect.execute(`
+            SELECT
+            facturasdeproveedores.fecha, facturasdeproveedores.nmro AS nmroFact, facturasdeproveedores.tipo AS tipoFact, "facturas de proveedores" AS categoria, 
+            facturasdeproveedores.concepto, facturasdeproveedores.total, 
+            SUM((itemsfp.precio * itemsfp.cantidad) * (itemsfp.bonificacion / 100)) AS bonificacion, 
+            SUM(((itemsfp.precio * itemsfp.cantidad) - ((itemsfp.precio * itemsfp.cantidad) * (itemsfp.bonificacion / 100))) * (itemsfp.impuesto / 100)) AS iva,
+            (facturasdeproveedores.total - SUM((itemsfp.precio * itemsfp.cantidad) * (itemsfp.bonificacion / 100))) AS proveedores
+            FROM facturasdeproveedores INNER JOIN itemsfp ON facturasdeproveedores.id = itemsfp.idFactura WHERE facturasdeproveedores.id = '${element.id}'
+            `);
+            rdosFP.push(data[0]);
+        }
+        /*
+        for (const element of resFacturasdeProveedores) {
+            const [data] = await connect.execute(`
+            SELECT
+            facturasdeproveedores.fecha, facturasdeproveedores.nmro AS nmroFact, facturasdeproveedores.tipo AS tipoFact, "facturas de proveedores" AS categoria, 
+            facturasdeproveedores.concepto, facturasdeproveedores.total, 
+            SUM((itemsfp.precio * itemsfp.cantidad) * (itemsfp.bonificacion / 100)) AS bonificacion, 
+            SUM(((itemsfp.precio * itemsfp.cantidad) - ((itemsfp.precio * itemsfp.cantidad) * (itemsfp.bonificacion / 100))) * (itemsfp.impuesto / 100)) AS iva,
+            (facturasdeproveedores.total - SUM((itemsfp.precio * itemsfp.cantidad) * (itemsfp.bonificacion / 100))) AS proveedores
+            FROM facturasdeproveedores INNER JOIN itemsfp ON facturasdeproveedores.id = itemsfp.idFactura WHERE facturasdeproveedores.id = '${element.id}'
+            `);
+            rdosFP.push(data[0]);
+        }
+
+        
+        */
+
+
+        let rdosContables = ordenarFechas([...rdosFP,...rdosFv,...resPagosFP,...resPagosAcr,...resCobranzasFV])
+        rdosContables.reverse()
+
+        return res.status(200).json({ ok: true,rdosContables });
+    }catch(err){
+        return res.status(400).json({ok:false,message:err})
+    }
+})
+
+
+route.post('/api/libroDiario',async(req,res)=>{
+    const { id,fechaInicial,fechaFinal } = req.body;
+    try{
+        await connect.execute('INSERT INTO libroDiario (id,fechaInicial,fechaFinal) VALUES (?,?,?)',[id,fechaInicial,fechaFinal])
+        return res.status(201).json({ok:true})
+    }catch(err){
+        return res.status(400).json({ok:false,message:err})
+    }
+})
+
+
+route.get('/api/libro-diario',async(req,res)=>{
+    try{
+        const [ librosDiarios ] = await connect.execute('SELECT * FROM libroDiario')
+        return res.status(200).json({ok:true,librosDiarios})
+    }catch(err){
         return res.status(400).json({ok:false})
     }
 })
