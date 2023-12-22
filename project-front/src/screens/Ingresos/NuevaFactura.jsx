@@ -409,7 +409,7 @@ const NuevaFactura = ({propiedad,contacto,productosF,remito,setOpen}) => {
         <div style={{display:"flex",alignItems:"center",gap:10}}>
           {
             propiedad ?
-            <h1>Factura Del Remito</h1>
+            <></>
             :
             <h1>Nueva Factura</h1>
           }

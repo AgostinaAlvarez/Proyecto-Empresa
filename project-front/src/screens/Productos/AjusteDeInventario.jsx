@@ -24,6 +24,10 @@ const AjusteDeInventario = () => {
       title: 'Fecha',
       dataIndex: 'fecha',
       key: 'fecha',
+      render: (text) => {
+        const date = text.slice(0, 10);
+        return date;
+      },
     },
     {
       title: 'Hora',
@@ -35,15 +39,16 @@ const AjusteDeInventario = () => {
       dataIndex: 'tipo',
       key: 'tipo',
     },
-    {
-      title: 'Id producto',
-      dataIndex: 'idProducto',
-      key: 'idProducto',
-    },
+    
     {
       title: 'Nombre de producto',
       dataIndex: 'nombre',
       key: 'nombre',
+    },
+    {
+      title: 'Id producto',
+      dataIndex: 'idProducto',
+      key: 'idProducto',
     },
     {
       title: 'Cantidad Ajustada',
@@ -86,47 +91,7 @@ const AjusteDeInventario = () => {
           showTotal: (total, range) => `${range[0]}-${range[1]} de ${total} elementos`,
         }}
       />
-      <table className='tableFactura'>
-        <thead>
-          <tr>
-            <th style={{width:100}}>Fecha</th>
-            <th>Hora</th>
-            <th style={{width:130}}>Tipo</th>
-            <th style={{width:350}}>Id de Producto</th>
-            <th>Nombre</th>
-            <th>Cantidad Ajustada</th>
-            <th>Precio Base</th>
-            <th>Impuesto</th>
-            <th>Precio Total</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            ajustesDeInventario.length === 0 ?
-            <></>
-            :
-            <>
-              {
-                ajustesDeInventario.map((item,index)=>
-                  <tr className='tr-list' key={index}>
-                    <td style={{width:100}}>{item.fecha.slice(0, 10)}</td>
-                    <td>{item.hora}</td>
-                    <td style={{width:130,textAlign:"center"}}>{item.tipo}</td>
-                    <td style={{width:350}}>{item.idProducto}</td>
-                    <td>{item.nombre}</td>
-                    <td>{item.cantidadAjustada}</td>
-                    <td>${item.precioBase}</td>
-                    <td>{item.impuesto}%</td>
-                    <td>${item.precioTotal.toFixed(2)}</td>
-                    <td><button>Ver</button></td>
-                  </tr>
-                )
-              }
-            </>
-          }
-        </tbody>
-      </table>
+      
       {
         overlay === true ?
         <NuevoAjusteDeInventario

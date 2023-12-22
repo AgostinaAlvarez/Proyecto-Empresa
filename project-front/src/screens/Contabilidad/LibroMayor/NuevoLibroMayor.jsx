@@ -334,45 +334,48 @@ const NuevoLibroMayor = () => {
   
   const columns = [
     {
-      title: 'Nombre',
-      dataIndex: 'name',
-      key: 'name',
+      title: 'Ref',
+      dataIndex: 'id',
+      key: 'id',
+      render: (text) => {
+        const ref = text.slice(0,10)
+        return ref;
+      },
     },
     {
-      title: 'Edad',
-      dataIndex: 'age',
-      key: 'age',
+      title: 'Fecha Inicial',
+      dataIndex: 'fechaInicial',
+      key: 'fechaInicial',
+      render: (text) => {
+        const ref = text.slice(0,10)
+        return ref;
+      },
     },
     {
-      title: 'Dirección',
-      dataIndex: 'address',
-      key: 'address',
+      title: 'Fecha Final',
+      dataIndex: 'fechaFinal',
+      key: 'fechaFinal',
+      render: (text) => {
+        const ref = text.slice(0,10)
+        return ref;
+      },
     },
+    
     {
       title: 'Acciones',
+      dataIndex: 'actions',
       key: 'actions',
       render: (text, record) => (
         <>
-          <Button style={{marginRight:"5px"}} onClick={() => handleButtonClick(record)}>Ver</Button>
-          <Button onClick={() => handleButtonClick(record)}>Imprimir</Button>
+          <Button 
+          onClick={()=>{selectLibroDiario(record.fechaInicial.slice(0, 10),record.fechaFinal.slice(0, 10))}}
+          //onClick={() => navigate(`/productos/${record.id}`)}
+          >Seleccionar</Button>
         </>
 
       ),
     },
   ];
-
-
-  
-  const data = [];
-  for (let i = 1; i <= 23; i++) { // Cambia este valor al número variable de objetos
-    data.push({
-      key: i,
-      name: `Usuario ${i}`,
-      age: 20 + i,
-      address: `Dirección ${i}`,
-    });
-  }
-
 
 
   return (
@@ -468,52 +471,16 @@ const NuevoLibroMayor = () => {
             options[1].selected === true ?
             <>
               <div>Buscar libro diario:</div>
-                  
-              <table className='tableFactura' style={{width:"90%",marginTop:"40px",marginBottom:"40px"}}>
-                <thead>
-                  <tr>
-                    <th>Nmro.</th>
-                    <th>Ref.</th>
-                    <th>Fecha inicial</th>
-                    <th>Fecha final</th>
-                    <th>Acciones</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {
-                    librosDiarios.length === 0 ?
-                    <></>
-                    :
-                    <>
-                    {
-                      librosDiarios.map((libro,index)=>
-                      <tr key={index}>
-                        <td>{index+1}</td>
-                        <td>{libro.id.slice(0, 10)}</td>
-                        <td>{libro.fechaInicial.slice(0, 10)}</td>
-                        <td>{libro.fechaFinal.slice(0, 10)}</td>
-                        <td><button onClick={()=>{selectLibroDiario(libro.fechaInicial.slice(0, 10),libro.fechaFinal.slice(0, 10))}}>Seleccionar</button></td>
-                      </tr>
-                      )
-                    }
-
-                    
-                    </>
-                  }
-                </tbody>
-              </table>
-                <Table
-                  dataSource={data}
-                  columns={columns}
-                  pagination={{
-                    pageSize: 5,
-                    position: 'bottom',
-                    showSizeChanger: true,
-                    showTotal: (total, range) => `${range[0]}-${range[1]} de ${total} elementos`,
-                  }}
-                  scroll={{ y: 400 }} 
-
-                />
+              <Table
+                dataSource={librosDiarios}
+                columns={columns}
+                pagination={{
+                  pageSize: 5,
+                  position: 'bottom',
+                  showTotal: (total, range) => `${range[0]}-${range[1]} de ${total} elementos`,
+                }}
+                scroll={{ y: 400 }} 
+              />
               {
                 rdos.length === 0 ?
                 <></>

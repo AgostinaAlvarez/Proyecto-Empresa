@@ -162,7 +162,7 @@ const NuevoProducto = ({setCreateNewProduct}) => {
             </div>
             <div className='formContent'>
 
-              <div className='formGrid formAlign'>
+              <div className='formGridOverlay formAlign'>
                 <div className="formGridItem">
                   <label>Nombre</label>
                   <input 

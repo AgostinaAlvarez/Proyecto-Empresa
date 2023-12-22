@@ -287,11 +287,19 @@ th{
   margin: 0 auto;
 }
 
+.formGridOverlay{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
 .formGrid{
   display: grid;
   grid-template-columns: 1fr 1.5fr;
   gap: 15px;
 }
+
+
 
 
 .formGridItem{

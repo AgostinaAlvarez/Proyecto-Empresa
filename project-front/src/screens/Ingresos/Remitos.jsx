@@ -10,6 +10,7 @@ import FacturarRemito from './FacturarRemito';
 import axios from 'axios';
 import { FiPrinter } from "react-icons/fi";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
+import { Button, Table, Tag } from 'antd';
 
 const Remitos = () => {
   //const [ nuevoRemito,setNuevoRemito ] = useState(false)
@@ -84,6 +85,73 @@ const Remitos = () => {
     }
   }
 
+
+  const columns = [
+    {
+      title: 'Folio',
+      dataIndex: 'index',
+      key: 'index',
+      render: (text, record, index) => <span>0001-000000{index + 1}</span>,
+    },
+    {
+      title: 'Cliente',
+      dataIndex: 'nombre',
+      key: 'nombre',
+    },
+    {
+      title: 'Creacion',
+      dataIndex: 'creacion',
+      key: 'creacion',
+      render: (text) => {
+        const fecha = text.slice(0, 10)
+        return fecha
+      }
+    },
+    {
+      title: 'Vencimiento',
+      dataIndex: 'vencimiento',
+      key: 'vencimiento',
+      render: (text) => {
+        const fecha = text.slice(0, 10)
+        return fecha
+      }
+    },
+    {
+      title: 'Estado',
+      dataIndex: 'estado',
+      key: 'estado',
+      render: (text,record) =>{
+        return(
+          <Tag color={text == "Facturado" ? 'green' : 'volcano'} >
+            {text}
+          </Tag>
+        )
+      }
+    },
+    {
+      title: 'Acciones',
+      key: 'actions',
+      render: (text, record) => (
+        <>
+          <Button style={{marginRight:"5px"}} 
+          >Ver</Button>
+          <Button style={{marginRight:"5px"}} 
+          onClick={()=>{navigate(`/remitos/imprimir/${record.idRemito}`)}}
+          >Imprimir</Button>
+          {record.estado === 'No facturado' && ( // Verifica si el estado es  && ( // Verifica si el estado es "Pendiente"
+            <Button onClick={() => { // Agrega el botón "Pagar" cuando el estado es "Pendiente"
+              facturarRemito(record.idRemito,record)
+            }}>
+              Facturar
+            </Button>
+          )}
+        </>
+
+      ),
+    },
+  ]
+
+
   return (
     <>
       <HeaderSection
@@ -107,48 +175,17 @@ const Remitos = () => {
           <input className='inp' placeholder='filtrar' style={{width:"calc(100% - 70px)",height:25,border:"none",paddingLeft:10}} type='text'/>
         </div>
       </div>
-
-      <table className='tableFactura'>
-        <thead>
-          <tr>
-            <th>Folio</th>
-            <th>Cliente</th>
-            <th>Creacion</th>
-            <th>Vencimiento</th>
-            <th>Estado</th>
-            <th>Total</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {  
-            remitos.map((item,index)=>
-              <tr className='tr-list' key={index}>
-                <td>0001-000000{index+1}</td>
-                <td>{item.nombre}</td>
-                <td>{item.creacion.slice(0, 10)}</td>
-                <td>{item.vencimiento.slice(0, 10)}</td>
-                <td>{item.estado}</td>
-                <td className='tableFontBold'>${item.total.toFixed(2)}</td>
-                <td>
-                  <div style={{display:"flex",flexDirection:"row",gap:10}}>
-                    <MdOutlineRemoveRedEye/>
-                    <FiPrinter onClick={()=>{navigate(`/remitos/imprimir/${item.idRemito}`)}}/>
-                    {
-                      item.estado === "No facturado" ?
-                      <button onClick={()=>{
-                        facturarRemito(item.idRemito,item)
-                      }}>Facturar</button>
-                      :
-                      <></>
-                    }
-                  </div>
-                </td>
-              </tr>
-            )
-          }
-        </tbody>
-      </table>
+      <Table
+        dataSource={remitos}
+        columns={columns}
+        pagination={{
+          pageSize: 5,
+          position: 'bottom',
+          //showSizeChanger: true,
+          showTotal: (total, range) => `${range[0]}-${range[1]} de ${total} elementos`,
+        }}
+      />
+     
       {
         open === true ?
         <FacturarRemito 

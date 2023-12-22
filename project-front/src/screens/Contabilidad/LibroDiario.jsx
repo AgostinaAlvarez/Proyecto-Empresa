@@ -7,6 +7,7 @@ import axios from 'axios';
 import { AppContext } from '../../context/AppContext';
 import { FiPrinter } from "react-icons/fi";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
+import { Button, Table } from 'antd';
 
 const LibroDiario = () => {
   const arr = [1,2,3,1,2,3,1,1,1,1,1,1,1]
@@ -30,6 +31,55 @@ const LibroDiario = () => {
     }
   }
 
+  const columns = [
+    {
+      title: 'Ref',
+      dataIndex: 'id',
+      key: 'id',
+      render: (text) => {
+        const ref = text.slice(0,10)
+        return ref;
+      },
+    },
+    {
+      title: 'Fecha Inicial',
+      dataIndex: 'fechaInicial',
+      key: 'fechaInicial',
+      render: (text) => {
+        const ref = text.slice(0,10)
+        return ref;
+      },
+    },
+    {
+      title: 'Fecha Final',
+      dataIndex: 'fechaFinal',
+      key: 'fechaFinal',
+      render: (text) => {
+        const ref = text.slice(0,10)
+        return ref;
+      },
+    },
+    
+    {
+      title: 'Acciones',
+      dataIndex: 'actions',
+      key: 'actions',
+      render: (text, record) => (
+        <>
+          <Button style={{marginRight:"5px"}} 
+          onClick={()=>{navigate(`/libro-diario/detalle/${record.id}`)}}
+          >Ver</Button>
+          <Button 
+          //onClick={() => navigate(`/productos/${record.id}`)}
+          >Imprimir</Button>
+        </>
+
+      ),
+    },
+  ];
+
+
+
   return (
     <>
       <HeaderSection
@@ -41,42 +91,17 @@ const LibroDiario = () => {
       <div>
         Filtrar
       </div>
-      <table className='tableFactura' style={{marginBottom:30}}>
-        <thead>
-          <tr>
-            <th>Nmro.</th>
-            <th>Ref.</th>
-            <th>Fecha inicial</th>
-            <th>Fecha final</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            librosDiarios.length === 0? 
-            <></>
-            :
-            <>
-              {
-                librosDiarios.map((item,index)=>
-                <tr key={index}>
-                  <td>{index+1}</td>
-                  <td>{item.id.slice(0, 10)}</td>
-                  <td>{item.fechaInicial.slice(0, 10)}</td>
-                  <td>{item.fechaFinal.slice(0, 10)}</td>
-                  <td>
-                    <div style={{display:"flex",flexDirection:"row",gap:10}}>
-                      <MdOutlineRemoveRedEye onClick={()=>{navigate(`/libro-diario/detalle/${item.id}`)}}/>
-                      <FiPrinter/> 
-                    </div>
-                  </td>
-                </tr>
-                )
-              }
-            </>
-          }
-        </tbody>
-      </table>
+      <Table
+        dataSource={librosDiarios}
+        columns={columns}
+        pagination={{
+          pageSize: 5,
+          position: 'bottom',
+          //showSizeChanger: true,
+          showTotal: (total, range) => `${range[0]}-${range[1]} de ${total} elementos`,
+        }}
+      />
+      
     </>
   )
 }

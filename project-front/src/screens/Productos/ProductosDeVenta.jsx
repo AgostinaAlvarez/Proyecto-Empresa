@@ -59,7 +59,7 @@ const ProductosDeVenta = () => {
       key: 'costoInicial',
       render: (text) => {
         const roundedValue = parseFloat(text).toFixed(2);
-        return parseFloat(roundedValue);
+        return `$${roundedValue}`;
       },
     },
     {
@@ -68,7 +68,7 @@ const ProductosDeVenta = () => {
       key: 'precioBase',
       render: (text) => {
         const roundedValue = parseFloat(text).toFixed(2);
-        return parseFloat(roundedValue);
+        return `$${roundedValue}`;
       },
     },
     {
@@ -77,7 +77,7 @@ const ProductosDeVenta = () => {
       key: 'precioTotal',
       render: (text) => {
         const roundedValue = parseFloat(text).toFixed(2);
-        return parseFloat(roundedValue);
+        return `$${roundedValue}`;
       },
     },
     {
@@ -118,18 +118,14 @@ const ProductosDeVenta = () => {
           <h2 style={{fontSize:30}}>${valorDeInventario()}</h2>
         </div>
       </div>
-      {
-        /*
-        
-        */
-      }
+      
       <Table
         dataSource={productos}
         columns={columns}
         pagination={{
           pageSize: 5,
           position: 'bottom',
-          showSizeChanger: true,
+          //showSizeChanger: true,
           showTotal: (total, range) => `${range[0]}-${range[1]} de ${total} elementos`,
         }}
       />

@@ -4,6 +4,7 @@ import HeaderSection from '../../components/HeaderSection'
 import { useNavigate } from 'react-router-dom'
 import { MdAttachMoney } from "react-icons/md";
 import { AppContext } from '../../context/AppContext';
+import { Button, Table } from 'antd';
 
 const Cobranzas = () => {
   const { cobranzas } = useContext(AppContext);
@@ -17,6 +18,61 @@ const Cobranzas = () => {
     console.log(cobranzas)
   }, [])
   
+  const columns = [
+    {
+      title: 'Comcepto',
+      dataIndex: 'concepto',
+      key: 'concepto',
+    },
+    {
+      title: 'Fecha',
+      dataIndex: 'fecha',
+      key: 'fecha',
+      render: (text) => {
+        const date = text.slice(0,10);
+        return date;
+      },
+    },
+    {
+      title: 'Cuenta',
+      dataIndex: 'entidad',
+      key: 'entidad',
+    },
+    {
+      title: 'Nmro. de cuenta',
+      dataIndex: 'nmroDeCuenta',
+      key: 'nmroDeCuenta',
+    },
+    {
+      title: 'Medio de pago',
+      dataIndex: 'metodoDePago',
+      key: 'metodoDePago',
+    },
+    {
+      title: 'Monto',
+      dataIndex: 'total',
+      key: 'total',
+      render: (text) => {
+        const roundedValue = parseFloat(text).toFixed(2);
+        return `$${roundedValue}`;
+      },
+    },
+    
+    {
+      title: 'Acciones',
+      key: 'actions',
+      render: (text, record) => (
+        <>
+          <Button style={{marginRight:"5px"}} 
+          //onClick={() => navigate(`/productos/${record.id}`)}
+          >Ver</Button>
+        </>
+
+      ),
+    },
+  ];
+
+
   return (
     <>
         <HeaderSection
@@ -25,37 +81,16 @@ const Cobranzas = () => {
         actionName={'Nueva Cobranza'}
         action={nuevaCobranza}
       />
-      <table className='tableFactura'>
-        <thead>
-          <tr>
-            <th>Nmro</th>
-            <th>Concepto</th>
-            <th>Fecha</th>
-            <th>Nmro. de Cuenta</th>
-            <th>Medio de pago</th>
-            <th>Monto</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            
-            cobranzas.map((item,index)=>
-            <tr className='tr-list' key={index}>
-              <td>{index + 1}</td>
-              <td>{item.concepto}</td>
-              <td>{item.fecha.slice(0,10)}</td>
-              <td>({item.entidad}) {item.nmroDeCuenta}</td>
-              <td>{item.metodoDePago}</td>
-              <td className='tableFontBold'>${item.total.toFixed(2)}</td>
-              <td><button>Ver</button></td>
-            </tr>
-            
-            )
-            
-          }
-        </tbody>
-      </table>
+      <Table
+        dataSource={cobranzas}
+        columns={columns}
+        pagination={{
+          pageSize: 5,
+          position: 'bottom',
+          //showSizeChanger: true,
+          showTotal: (total, range) => `${range[0]}-${range[1]} de ${total} elementos`,
+        }}
+      />
     </>
   )
 }
