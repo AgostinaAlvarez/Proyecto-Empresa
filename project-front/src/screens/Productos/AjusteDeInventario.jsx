@@ -4,6 +4,7 @@ import HeaderSection from '../../components/HeaderSection'
 import { IoSettingsOutline } from "react-icons/io5";
 import { AppContext } from '../../context/AppContext';
 import NuevoAjusteDeInventario from './NuevoAjusteDeInventario';
+import { Button, Table } from 'antd';
 
 
 const AjusteDeInventario = () => {
@@ -18,6 +19,52 @@ const AjusteDeInventario = () => {
     setOverlay(true)
   }
 
+  const columns = [
+    {
+      title: 'Fecha',
+      dataIndex: 'fecha',
+      key: 'fecha',
+    },
+    {
+      title: 'Hora',
+      dataIndex: 'hora',
+      key: 'hora',
+    },
+    {
+      title: 'Tipo',
+      dataIndex: 'tipo',
+      key: 'tipo',
+    },
+    {
+      title: 'Id producto',
+      dataIndex: 'idProducto',
+      key: 'idProducto',
+    },
+    {
+      title: 'Nombre de producto',
+      dataIndex: 'nombre',
+      key: 'nombre',
+    },
+    {
+      title: 'Cantidad Ajustada',
+      dataIndex: 'cantidadAjustada',
+      key: 'cantidadAjustada',
+    },
+    {
+      title: 'Acciones',
+      key: 'actions',
+      render: (text, record) => (
+        <>
+          <Button style={{marginRight:"5px"}} 
+          //</>onClick={() => handleButtonClick(record)}
+          >Ver</Button>
+        </>
+
+      ),
+    },
+  ];
+
+
   return (
     <>
       <HeaderSection
@@ -29,6 +76,16 @@ const AjusteDeInventario = () => {
       <div>
         Ajustes realizados
       </div>
+      <Table
+        dataSource={ajustesDeInventario}
+        columns={columns}
+        pagination={{
+          pageSize: 6,
+          position: 'bottom',
+          showSizeChanger: true,
+          showTotal: (total, range) => `${range[0]}-${range[1]} de ${total} elementos`,
+        }}
+      />
       <table className='tableFactura'>
         <thead>
           <tr>

@@ -110,11 +110,6 @@ const Todos = () => {
     },
   ];
 
-  useEffect(() => {
-    console.log(contactos)
-  }, [])
-  
-
 
   return (
     <>

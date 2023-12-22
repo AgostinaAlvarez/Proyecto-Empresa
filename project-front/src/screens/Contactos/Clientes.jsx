@@ -6,6 +6,7 @@ import NewClient from './NewClient';
 import { AiOutlineEye,AiOutlineEdit,AiOutlineSearch } from "react-icons/ai";
 import { AppContext } from '../../context/AppContext';
 import { MdOutlineRemoveRedEye } from "react-icons/md";
+import { Button, Table } from 'antd';
 
 const Clientes = () => {
   const { clientes } = useContext(AppContext);
@@ -69,6 +70,44 @@ const Clientes = () => {
     setFilters(updateData)
   }
 
+  const columns = [
+    {
+      title: 'Nombre',
+      dataIndex: 'nombre',
+      key: 'nombre',
+    },
+    {
+      title: 'Identificacion',
+      dataIndex: 'idType',
+      key: 'idType',
+    },
+    {
+      title: 'Nmro',
+      dataIndex: 'id',
+      key: 'id',
+    },
+    {
+      title: 'Mail',
+      dataIndex: 'correo',
+      key: 'correo',
+    },
+    {
+      title: 'Acciones',
+      key: 'actions',
+      render: (text, record) => (
+        <>
+          <Button style={{marginRight:"5px"}} 
+          //</>onClick={() => handleButtonClick(record)}
+          >Ver</Button>
+          <Button 
+          //onClick={() => handleButtonClick(record)}
+          >Editar</Button>
+        </>
+
+      ),
+    },
+  ];
+
   return (
     <>
       <HeaderSection
@@ -99,6 +138,7 @@ const Clientes = () => {
           <input className='inp' placeholder='filtrar' style={{width:"calc(100% - 70px)",height:25,border:"none",paddingLeft:10}} type='text'/>
         </div>
       </div>
+      {/*
       <table className='tableFactura'>
         <thead>
           <tr>
@@ -133,7 +173,17 @@ const Clientes = () => {
           }
         </tbody>
       </table>
-      
+      */}
+      <Table
+        dataSource={clientes}
+        columns={columns}
+        pagination={{
+          pageSize: 6,
+          position: 'bottom',
+          showSizeChanger: true,
+          showTotal: (total, range) => `${range[0]}-${range[1]} de ${total} elementos`,
+        }}
+      />
     </>
   )
 }

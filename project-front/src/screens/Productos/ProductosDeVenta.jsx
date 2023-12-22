@@ -6,6 +6,7 @@ import HeaderSection from '../../components/HeaderSection';
 import { IoSettingsOutline } from "react-icons/io5";
 import { FaClipboardList } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
+import { Button, Table } from 'antd';
 
 
 const ProductosDeVenta = () => {
@@ -27,8 +28,74 @@ const ProductosDeVenta = () => {
 
   useEffect(() => {
     console.log(productos)
+    
   }, [])
   
+
+  const columns = [
+    {
+      title: 'Item',
+      dataIndex: 'nombre',
+      key: 'nombre',
+    },
+    {
+      title: 'Id',
+      dataIndex: 'id',
+      key: 'id',
+    },
+    {
+      title: 'Stock',
+      dataIndex: 'cantidad',
+      key: 'cantidad',
+    },
+    {
+      title: 'Unidad de medida',
+      dataIndex: 'unidadDeMedida',
+      key: 'unidadDeMedida',
+    },
+    {
+      title: 'Costo',
+      dataIndex: 'costoInicial',
+      key: 'costoInicial',
+      render: (text) => {
+        const roundedValue = parseFloat(text).toFixed(2);
+        return parseFloat(roundedValue);
+      },
+    },
+    {
+      title: 'Precio Base',
+      dataIndex: 'precioBase',
+      key: 'precioBase',
+      render: (text) => {
+        const roundedValue = parseFloat(text).toFixed(2);
+        return parseFloat(roundedValue);
+      },
+    },
+    {
+      title: 'Precio Total',
+      dataIndex: 'precioTotal',
+      key: 'precioTotal',
+      render: (text) => {
+        const roundedValue = parseFloat(text).toFixed(2);
+        return parseFloat(roundedValue);
+      },
+    },
+    {
+      title: 'Acciones',
+      key: 'actions',
+      render: (text, record) => (
+        <>
+          <Button style={{marginRight:"5px"}} 
+          onClick={() => navigate(`/productos/${record.id}`)}
+          >Ver</Button>
+        </>
+
+      ),
+    },
+  ];
+
+
+
   return (
     <>
       <HeaderSection
@@ -51,41 +118,22 @@ const ProductosDeVenta = () => {
           <h2 style={{fontSize:30}}>${valorDeInventario()}</h2>
         </div>
       </div>
-      <table className='tableFactura'>
-        <thead>
-          <tr>
-            <th>Item</th>
-            <th>Id</th>
-            <th>Stock</th>
-            <th>Unidad de Medida</th>
-            <th>Costo</th>
-            <th>Total</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            productos.length === 0 ?
-            <></>
-            :
-            <>
-              {
-                productos.map((item,index)=>
-                <tr className='tr-list' key={index}>
-                  <td>{item.nombre}</td>
-                  <td>{item.id}</td>
-                  <td>{item.cantidad}</td>
-                  <td>{item.unidadDeMedida}</td>
-                  <td>${item.costoInicial}</td>
-                  <td>${parseFloat((item.cantidad * item.costoInicial).toFixed(2))}</td>
-                  <td><button onClick={()=>{navigate(`/productos/${item.id}`)}}>Ver</button></td>
-                </tr>
-                )
-              }
-            </>
-          }
-        </tbody>
-      </table>
+      {
+        /*
+        
+        */
+      }
+      <Table
+        dataSource={productos}
+        columns={columns}
+        pagination={{
+          pageSize: 5,
+          position: 'bottom',
+          showSizeChanger: true,
+          showTotal: (total, range) => `${range[0]}-${range[1]} de ${total} elementos`,
+        }}
+      />
+      
     </>
   )
 }
