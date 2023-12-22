@@ -566,4 +566,14 @@ route.get('/api/libro-diario',async(req,res)=>{
     }
 })
 
+
+route.get('/api/libro-diario/:id',async(req,res)=>{
+    try{
+        const [ libro ] = await connect.execute('SELECT * FROM libroDiario WHERE id = ?',[req.params.id])
+        return res.status(200).json({ok:true,libro})
+    }catch(err){
+        return res.status(400).json({ok:false})
+    }
+})
+
 export default route

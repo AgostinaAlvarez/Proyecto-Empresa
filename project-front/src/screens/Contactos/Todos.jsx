@@ -1,11 +1,12 @@
 /* eslint-disable no-unused-vars */
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import HeaderSection from '../../components/HeaderSection'
 import { LuUsers } from "react-icons/lu";
 import NewContact from './NewContact';
 import { AiOutlineEye,AiOutlineEdit,AiOutlineSearch } from "react-icons/ai";
 import { AppContext } from '../../context/AppContext';
 import { MdOutlineRemoveRedEye } from "react-icons/md";
+import { Button, Table } from 'antd';
 
 const Todos = () => {
   const { contactos,setContactos } = useContext(AppContext);
@@ -69,6 +70,52 @@ const Todos = () => {
     setFilters(updateData)
   }
 
+
+   
+  const columns = [
+    {
+      title: 'Nombre',
+      dataIndex: 'nombre',
+      key: 'nombre',
+    },
+    {
+      title: 'Identificacion',
+      dataIndex: 'idType',
+      key: 'idType',
+    },
+    {
+      title: 'Nmro',
+      dataIndex: 'id',
+      key: 'id',
+    },
+    {
+      title: 'Mail',
+      dataIndex: 'correo',
+      key: 'correo',
+    },
+    {
+      title: 'Acciones',
+      key: 'actions',
+      render: (text, record) => (
+        <>
+          <Button style={{marginRight:"5px"}} 
+          //</>onClick={() => handleButtonClick(record)}
+          >Ver</Button>
+          <Button 
+          //onClick={() => handleButtonClick(record)}
+          >Editar</Button>
+        </>
+
+      ),
+    },
+  ];
+
+  useEffect(() => {
+    console.log(contactos)
+  }, [])
+  
+
+
   return (
     <>
       <HeaderSection
@@ -100,41 +147,17 @@ const Todos = () => {
           <input className='inp' placeholder='filtrar' style={{width:"calc(100% - 70px)",height:25,border:"none",paddingLeft:10}} type='text'/>
         </div>
       </div>
-      <table className='tableFactura'>
-        <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Identificacion</th>
-            <th>Telefono</th>
-            <th>Mail</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            contactos.length !== 0 ?
-            <>
-              {contactos.map((item, index) => (
-                <tr className='tr-list' key={index}>
-                  <td>{item.nombre}</td>
-                  <td>{item.id} ({item.idType})</td>
-                  <td>Telefono</td>
-                  <td>{item.correo}</td>
-                  <td>
-                    <div style={{display:"flex",fontSize:16,gap:5,alignItems:"center",boxSizing:"border-box",padding:"0px 10px"}}>
-                      <MdOutlineRemoveRedEye/>
-                      <AiOutlineEdit/>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </>
-            :
-            <></>
-          }
-        </tbody>
-      </table>
-      {/** */}
+      <Table
+        dataSource={contactos}
+        columns={columns}
+        pagination={{
+          pageSize: 6,
+          position: 'bottom',
+          showSizeChanger: true,
+          showTotal: (total, range) => `${range[0]}-${range[1]} de ${total} elementos`,
+        }}
+      />
+      
     </>
   )
 }

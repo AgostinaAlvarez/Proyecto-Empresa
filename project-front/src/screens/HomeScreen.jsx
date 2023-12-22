@@ -59,6 +59,7 @@ import AsientoContable from './Contabilidad/AsientoContable';
 import NuevoLibroDiario from './Contabilidad/LibroDiario/NuevoLibroDiario';
 import ImprimirLibroDiario from './Contabilidad/LibroDiario/ImprimirLibroDiario';
 import NuevoLibroMayor from './Contabilidad/LibroMayor/NuevoLibroMayor';
+import DetalleLibroDiarios from './Contabilidad/LibroDiario/DetalleLibroDiarios';
 
 
 const HomeScreen = () => {
@@ -255,6 +256,7 @@ const HomeScreen = () => {
             <Route path='/libro-diario' element={<LibroDiario/>}/>
             <Route path='/libro-diario/nuevo' element={<NuevoLibroDiario/>}/>
             <Route path='/libro-diario/imprimir' element={<ImprimirLibroDiario/>}/>
+            <Route path='/libro-diario/detalle/:id' element={<DetalleLibroDiarios/>}/>
 
             <Route path='/libro-mayor' element={<LibroMayor/>}/>
             <Route path='/libro-mayor/nuevo' element={<NuevoLibroMayor/>}/>

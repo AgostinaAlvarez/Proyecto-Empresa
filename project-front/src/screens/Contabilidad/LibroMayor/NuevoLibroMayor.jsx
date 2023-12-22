@@ -1,20 +1,37 @@
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { MdTableView } from "react-icons/md";
 import axios from 'axios';
 import { elements } from 'chart.js';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import HeaderSection from '../../../components/HeaderSection';
+import {AppContext} from '../../../context/AppContext';
+import { Button, Table } from 'antd';
 
 const NuevoLibroMayor = () => {
-
+  const { librosDiarios,setLibrosDiarios } = useContext(AppContext)
   const [ rdos,setRdos ] = useState([])
   const [ options,setOptions ] = useState([{name:"fecha",selected:false},{name:"libro diario",selected:"false"}])
   
   useEffect(() => {
     getTestData()
   }, [])
+
+  useEffect(() => {
+    getLibrosDiarios()
+  }, [])
+  
+
+  async function getLibrosDiarios (){
+    try{
+      const response = await axios.get('http://localhost:3000/api/libro-diario')
+      console.log(response.data.librosDiarios)
+      setLibrosDiarios(response.data.librosDiarios)
+    }catch(err){
+      console.log(err)
+    }
+  }
 
   function selectOption (typeO){
     setRdos([])
@@ -52,6 +69,8 @@ const NuevoLibroMayor = () => {
     }
   }
 
+
+  
   const cuentasContablesInitialState = [
     {
       nombre: "Deudores por venta",
@@ -136,8 +155,8 @@ const NuevoLibroMayor = () => {
   const [cuentasContables,setCuentasContables] = useState(cuentasContablesInitialState)
 
   function analyseData (rdos){
-    
-    const updatedCuentasContables = cuentasContables.map(cuenta => {
+
+    const updatedCuentasContables = cuentasContablesInitialState.map(cuenta => {
       
       if(cuenta.nombre === "Proveedores"){
         rdos.forEach(element =>{
@@ -278,9 +297,83 @@ const NuevoLibroMayor = () => {
   }
 
 
+  function selectLibroDiario (fechaInicial,fechaFinal){
+    setRdos([])
+    setSelectedDate(null)
+    setSelectedDate2(null)
+    setCuentasContables(cuentasContablesInitialState)
+    console.log('seteo todo')
+    console.log(fechaInicial)
+    console.log(fechaFinal)
+    getDatosLibroMayor(fechaInicial,fechaFinal)
+  }
+
+  async function getDatosLibroMayor (fechaInicial,fechaFinal){
+    try{
+      const response = await axios.get(`http://localhost:3000/api/libroDiario/${fechaInicial}/${fechaFinal}`)
+      console.log(response.data.rdosContables)
+      setRdos([])
+      setRdos(response.data.rdosContables)
+      analyseData(response.data.rdosContables)
+    }catch(err){
+      console.log(err)
+    }
+  }
+
+
   function getDatos(){
     getTestData()
   }
+
+  
+  const handleButtonClick = (record) => {
+    console.log('Objeto tocado:', record);
+  };
+
+  
+  
+  const columns = [
+    {
+      title: 'Nombre',
+      dataIndex: 'name',
+      key: 'name',
+    },
+    {
+      title: 'Edad',
+      dataIndex: 'age',
+      key: 'age',
+    },
+    {
+      title: 'Dirección',
+      dataIndex: 'address',
+      key: 'address',
+    },
+    {
+      title: 'Acciones',
+      key: 'actions',
+      render: (text, record) => (
+        <>
+          <Button style={{marginRight:"5px"}} onClick={() => handleButtonClick(record)}>Ver</Button>
+          <Button onClick={() => handleButtonClick(record)}>Imprimir</Button>
+        </>
+
+      ),
+    },
+  ];
+
+
+  
+  const data = [];
+  for (let i = 1; i <= 23; i++) { // Cambia este valor al número variable de objetos
+    data.push({
+      key: i,
+      name: `Usuario ${i}`,
+      age: 20 + i,
+      address: `Dirección ${i}`,
+    });
+  }
+
+
 
   return (
     <>
@@ -375,7 +468,8 @@ const NuevoLibroMayor = () => {
             options[1].selected === true ?
             <>
               <div>Buscar libro diario:</div>
-              <table className='tableFactura' style={{marginBottom:30}}>
+                  
+              <table className='tableFactura' style={{width:"90%",marginTop:"40px",marginBottom:"40px"}}>
                 <thead>
                   <tr>
                     <th>Nmro.</th>
@@ -385,7 +479,97 @@ const NuevoLibroMayor = () => {
                     <th>Acciones</th>
                   </tr>
                 </thead>
+                <tbody>
+                  {
+                    librosDiarios.length === 0 ?
+                    <></>
+                    :
+                    <>
+                    {
+                      librosDiarios.map((libro,index)=>
+                      <tr key={index}>
+                        <td>{index+1}</td>
+                        <td>{libro.id.slice(0, 10)}</td>
+                        <td>{libro.fechaInicial.slice(0, 10)}</td>
+                        <td>{libro.fechaFinal.slice(0, 10)}</td>
+                        <td><button onClick={()=>{selectLibroDiario(libro.fechaInicial.slice(0, 10),libro.fechaFinal.slice(0, 10))}}>Seleccionar</button></td>
+                      </tr>
+                      )
+                    }
+
+                    
+                    </>
+                  }
+                </tbody>
               </table>
+                <Table
+                  dataSource={data}
+                  columns={columns}
+                  pagination={{
+                    pageSize: 5,
+                    position: 'bottom',
+                    showSizeChanger: true,
+                    showTotal: (total, range) => `${range[0]}-${range[1]} de ${total} elementos`,
+                  }}
+                  scroll={{ y: 400 }} 
+
+                />
+              {
+                rdos.length === 0 ?
+                <></>
+                :
+                <>
+                  <h2>Libro diario</h2>
+                  <div>
+                    <button>Imprimir</button>
+                    <button>Guardar</button>
+                  </div>
+                  <table style={{width:"97%",margin:"0 auto",border:"1px solid black",marginTop:"40px",marginBottom:"40px"}}>
+                    <thead>
+                    <tr>
+                        <th style={{padding:"7px 0px",backgroundColor:"white",textAlign:"center",border:"1px solid black"}} rowSpan="3">Cuenta</th>
+                        <th style={{padding:"7px 0px",backgroundColor:"white",textAlign:"center",border:"1px solid black"}} rowSpan="3">Descripcion</th>
+                    </tr>
+                    <tr>
+                        <th style={{padding:"7px 0px",backgroundColor:"white",textAlign:"center",border:"1px solid black"}} colSpan="2">Movimientos</th>
+                        <th style={{padding:"7px 0px",backgroundColor:"white",textAlign:"center",border:"1px solid black"}} colSpan="2">Saldos</th>
+                    </tr>
+                    <tr>
+                        <th style={{padding:"7px 0px",backgroundColor:"white",textAlign:"center",border:"1px solid black"}}>Debe</th>
+                        <th style={{padding:"7px 0px",backgroundColor:"white",textAlign:"center",border:"1px solid black"}}>Haber</th>
+                        <th style={{padding:"7px 0px",backgroundColor:"white",textAlign:"center",border:"1px solid black"}}>Debe</th>
+                        <th style={{padding:"7px 0px",backgroundColor:"white",textAlign:"center",border:"1px solid black"}}>Haber</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                      {
+                          cuentasContables.map((item,index)=>
+                          <tr key={index}>
+                          <td style={{padding:"9px"}}>codigo</td>
+                          <td style={{padding:"9px",borderLeft:"1px solid black"}}>{item.nombre}</td>
+                          <td style={{padding:"9px 0px",borderLeft:"1px solid black",textAlign:"center"}}>{item.debe.toFixed(2)}</td>
+                          <td style={{padding:"9px 0px",borderLeft:"1px solid black",textAlign:"center"}}>{item.haber.toFixed(2)}</td>
+                          <td style={{padding:"9px 0px",borderLeft:"1px solid black",textAlign:"center"}}>{item.saldo < 0 ? "" : item.saldo.toFixed(2)}</td>
+                          <td style={{padding:"9px 0px",borderLeft:"1px solid black",textAlign:"center"}}>{item.saldo < 0 ? item.saldo.toFixed(2)*(-1) : ""}</td>
+                          </tr>
+                          )
+                      }
+                      <tr >
+                          <td style={{padding:"9px"}}></td>
+                          <td style={{padding:"9px 0px",borderLeft:"1px solid black"}}></td>
+                          <>
+                          {
+                              getSaldos()
+                          }
+                          </>
+                      </tr>
+                    </tbody>
+                  </table>
+                </>
+
+
+
+              }
             </>
             :
             <></> 

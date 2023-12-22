@@ -66,7 +66,7 @@ const LibroDiario = () => {
                   <td>{item.fechaFinal.slice(0, 10)}</td>
                   <td>
                     <div style={{display:"flex",flexDirection:"row",gap:10}}>
-                      <MdOutlineRemoveRedEye/>
+                      <MdOutlineRemoveRedEye onClick={()=>{navigate(`/libro-diario/detalle/${item.id}`)}}/>
                       <FiPrinter/> 
                     </div>
                   </td>

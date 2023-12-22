@@ -132,6 +132,7 @@ const NuevoLibroDiario = () => {
             <div>No hay resultados</div>
             :
             <>
+
               <table style={{width:"90%",marginTop:"30px",marginLeft:"20px"}}>
                   <thead>
                     <tr>
