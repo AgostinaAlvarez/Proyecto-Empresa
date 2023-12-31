@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import HeaderSection from '../../components/HeaderSection'
 import { BsFillInboxesFill } from "react-icons/bs";
 import { useNavigate } from 'react-router-dom';
@@ -8,10 +8,17 @@ import { AppContext } from '../../context/AppContext';
 import PagoFactura from './PagoFactura';
 import { FiPrinter } from "react-icons/fi";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
+import { Button, Table, Tag } from 'antd';
 
 const FacturasDeProveedores = () => {
   const { facturasDeProveedores,setFacturasDeProveedores } = useContext(AppContext);
  
+  useEffect(() => {
+    console.log('factt')
+    console.log(facturasDeProveedores)
+  }, [])
+  
+
   const navigate = useNavigate()
   
   function nuevaFactura (){
@@ -21,6 +28,113 @@ const FacturasDeProveedores = () => {
   const [ open,setOpen ] = useState(false);
   const [ selectedFactura,setSelectedFactura ] = useState(null);
   
+
+  const columns = [
+    {
+      title: 'Tipo',
+      dataIndex: 'tipo',
+      key: 'tipo',
+    },
+    {
+      title: 'Nmro',
+      dataIndex: 'nmro',
+      key: 'nmro',
+      render: (text) => {
+        const numero = text
+        return `001 - 000-${numero}`
+      }
+    },
+    {
+      title: 'Proveedor',
+      dataIndex: 'nombre',
+      key: 'nombre',
+    },
+    {
+      title: 'Creacion',
+      dataIndex: 'fecha',
+      key: 'fecha',
+      render: (text) => {
+        const fecha = text.slice(0, 10)
+        return fecha
+      }
+    },
+    {
+      title: 'Vencimiento',
+      dataIndex: 'vencimiento',
+      key: 'vencimiento',
+      render: (text) => {
+        const fecha = text.slice(0, 10)
+        return fecha
+      }
+    },
+    {
+      title: 'Total',
+      dataIndex: 'total',
+      key: 'total',
+      render: (text) => {
+        const total = text.toFixed(2)
+        return `$${total}`
+      }
+    },
+    {
+      title: 'Pagado',
+      dataIndex: 'montoPagado',
+      key: 'montoPagado',
+      render: (text) => {
+        const total = text.toFixed(2)
+        return `$${total}`
+      }
+    },
+    {
+      title: 'Por Pagar',
+      dataIndex: 'montoPendiente',
+      key: 'montoPendiente',
+      
+      render: (text) => {
+        let total = text.toFixed(2)
+        return `$${total}`
+      }
+    },
+    {
+      title: 'Estado',
+      dataIndex: 'estado',
+      key: 'estado',
+      render: (text,record) =>{
+        return(
+          <Tag color={text === "Pagada" ? 'green' : 'volcano'} >
+            {text}
+          </Tag>
+        )
+      }
+    },
+    {
+      title: 'Acciones',
+      key: 'actions',
+      render: (text, record) => (
+        <>
+          <Button style={{marginRight:"5px"}} 
+          >Ver</Button>
+          <Button style={{marginRight:"5px"}} 
+          //onClick={()=>{navigate(`/facturas/imprimir/${record.idFactura}`)}}
+          >Imprimir</Button>
+          {record.estado === 'Pendiente' && ( // Verifica si el estado es "Pendiente"
+            <Button onClick={() =>{  // Agrega el botón "Pagar" cuando el estado es "Pendiente"
+              setSelectedFactura(record)
+              console.log(record)  
+              setOpen(true)
+            }}>
+              Registrar Pago
+            </Button>
+          )}
+        </>
+
+      ),
+    },
+  ]
+
+
+
+
   return (
     <>
       <HeaderSection
@@ -28,6 +142,16 @@ const FacturasDeProveedores = () => {
         IconS={<BsFillInboxesFill style={{fontSize:30}}/>}
         actionName={'Nueva Factura de Proveedor'}
         action={nuevaFactura}
+      />
+      <Table
+        dataSource={facturasDeProveedores}
+        columns={columns}
+        pagination={{
+          pageSize: 5,
+          position: 'bottom',
+          //showSizeChanger: true,
+          showTotal: (total, range) => `${range[0]}-${range[1]} de ${total} elementos`,
+        }}
       />
       <table className='tableFactura' style={{marginBottom:30}}>
         <thead>

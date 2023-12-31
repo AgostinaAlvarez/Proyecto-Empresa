@@ -128,7 +128,7 @@ const FacturasDeVenta = () => {
       title: 'Por Cobrar',
       dataIndex: 'montoPendiente',
       key: 'montoPendiente',
-      
+
       render: (text) => {
         let total = text.toFixed(2)
         return `$${total}`
@@ -161,7 +161,7 @@ const FacturasDeVenta = () => {
               setSelectedFactura(record);
               setOpen(true);
             }}>
-              Pagar
+              Registrar Cobro
             </Button>
           )}
         </>
