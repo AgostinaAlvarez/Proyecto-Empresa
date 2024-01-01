@@ -151,7 +151,7 @@ const FacturasDeVenta = () => {
       key: 'actions',
       render: (text, record) => (
         <>
-          <Button style={{marginRight:"5px"}} 
+          <Button style={{marginRight:"5px"}} onClick={()=>{navigate(`/facturas/detalle/${record.idFactura}`)}}
           >Ver</Button>
           <Button style={{marginRight:"5px"}} onClick={()=>{navigate(`/facturas/imprimir/${record.idFactura}`)}}
           >Imprimir</Button>

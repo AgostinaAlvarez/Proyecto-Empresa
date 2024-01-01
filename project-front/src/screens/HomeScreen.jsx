@@ -60,7 +60,7 @@ import NuevoLibroDiario from './Contabilidad/LibroDiario/NuevoLibroDiario';
 import ImprimirLibroDiario from './Contabilidad/LibroDiario/ImprimirLibroDiario';
 import NuevoLibroMayor from './Contabilidad/LibroMayor/NuevoLibroMayor';
 import DetalleLibroDiarios from './Contabilidad/LibroDiario/DetalleLibroDiarios';
-
+import FacturaDeVentaDetalle from './Ingresos/FacturaDeVentaDetalle';
 
 const HomeScreen = () => {
   const navigate = useNavigate();
@@ -214,6 +214,7 @@ const HomeScreen = () => {
             <Route path='/facturas' element={<FacturasDeVenta/>}/>
             <Route path='/facturas/nueva' element={<NuevaFactura/>}/>
             <Route path='/facturas/imprimir/:id' element={<Factura/>}/>
+            <Route path='/facturas/detalle/:id' element={<FacturaDeVentaDetalle/>}/>
 
 
             <Route path='/remitos' element={<Remitos/>}/>
