@@ -149,6 +149,19 @@ route.get('/api/detalleFactura/:id',async(req,res)=>{
 })
 
 
+route.get('/api/facturaDetail/:id',async(req,res)=>{
+    try{
+        const [ factura ] = await connect.execute('SELECT * FROM facturasdeventa WHERE id = ?',[id])
+        const [ productos ] = await connect.execute('SELECT productosfacturados.cantidad,productosfacturados.precio, productosfacturados.bonificacion, productosfacturados.impuesto,productos.nombre,productos.id FROM productosfacturados INNER JOIN productos ON  productosfacturados.idProducto = productos.id WHERE idFactura = ?',[id])
+        const [ cliente ] = await connect.execute('SELECT  contactos.condicionIVA,contactos.nombre, contactos.id,contactos.idType,contactos.localidad,contactos.domicilio,contactos.codigoPostal,contactos.correo,contactos.celular,contactos.telefono1,contactos.telefono2 FROM facturasdeventa INNER JOIN contactos ON  facturasdeventa.contactId = contactos.id WHERE facturasdeventa.id = ?',[id])
+
+        return res.status(200).json({ok:true,factura,productos,cliente})
+    }catch(err){
+        return res.status(400).json({ok:false})
+    }
+})
+
+
 route.get('/api/getFacturasTest',async(req,res)=>{
     try{
         const [ facturas ] = await connect.execute('SELECT * FROM facturasdeventa INNER JOIN contactos WHERE contactos.id = facturasdeventa.contactId')
