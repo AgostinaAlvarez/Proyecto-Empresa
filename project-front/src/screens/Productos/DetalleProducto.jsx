@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import axios from 'axios';
+import img from '../../assets/filtro.png'
 
 const DetalleProducto = () => {
   const params = useParams()
@@ -13,6 +14,8 @@ const DetalleProducto = () => {
   const [ err,setErr ] = useState(false);
   const [ productDetails,setProductDetails ] = useState(null);
   const [ movimientos,setMovimientos ] = useState([])
+
+
   useEffect(() => {
     console.log(params)
     getDataProduct()
@@ -36,6 +39,10 @@ const DetalleProducto = () => {
     }
   }
 
+  function ordenDeTrabajo (){
+    console.log('orden')
+  }
+
   return (
     <>
       {
@@ -49,12 +56,20 @@ const DetalleProducto = () => {
             :
             <>
               <HeaderSection
-                name={`Producto de Inventario: ${productDetails.nombre}`}
+                name={`${productDetails.nombre}`}
                 IconS={<FaClipboardList style={{fontSize:25}}/>    }
-                //actionName={'Nuevo Producto'}
-                //action={openModal}
+                actionName={'Nueva orden de trabajo'}
+                action={ordenDeTrabajo}
               />
-              <div>Id de producto {productDetails.id}</div>
+              <div style={{width:"100%",display:"flex",flexDirection:"row",boxSizing:"border-box",border:"1px solid black",alignItems:"flex-start",justifyContent:"flex-start"}}>
+                <img style={{height:250}} src={img} />
+                <div style={{display:"flex",flexDirection:"column",gap:10}}>
+                  <span style={{fontWeight:600}}>ID: {productDetails.id}</span>
+                  <span>Dimesiones: 230cm x 400cm</span>
+                  <span>Stock: {productDetails.cantidad} unidades</span>
+                  <button style={{width:"fit-content"}}>Ver plano</button>
+                </div>
+              </div>
               <table className='tableFactura' style={{margin:"25px 0"}}>
                 <thead>
                   <tr>
@@ -78,6 +93,29 @@ const DetalleProducto = () => {
                     <td style={{textAlign:"center"}}>{productDetails.deposito}</td>
                     <td style={{textAlign:"center"}}>${productDetails.precioTotal.toFixed(2)}</td>
                     <td style={{textAlign:"center"}}>${(productDetails.precioTotal - productDetails.costoInicial).toFixed(2)}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div>
+                Materiales de produccion
+              </div>
+              <table className='tableFactura' style={{margin:"25px 0"}}>
+                <thead>
+                  <tr>
+                    <th style={{textAlign:"center",backgroundColor:"#EED7CE"}}>Material</th>
+                    <th style={{textAlign:"center",backgroundColor:"#EED7CE"}}>Proveedor</th>
+                    <th style={{textAlign:"center",backgroundColor:"#EED7CE"}}>Unidad de medida</th>
+                    <th style={{textAlign:"center",backgroundColor:"#EED7CE"}}>Stock</th>
+                    <th style={{textAlign:"center",backgroundColor:"#EED7CE"}}>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td style={{textAlign:"center"}}>Abrazadera</td>
+                    <td style={{textAlign:"center"}}>Unidad</td>
+                    <td style={{textAlign:"center"}}>250</td>
+                    <td style={{textAlign:"center"}}>Empresa SRL</td>
+                    <td style={{textAlign:"center"}}>Pedir</td>
                   </tr>
                 </tbody>
               </table>
@@ -113,6 +151,11 @@ const DetalleProducto = () => {
                   }
                 </tbody>
               </table>
+
+              <div>
+                Ordenes de trabajo
+              </div>
+
             </>
 
           }

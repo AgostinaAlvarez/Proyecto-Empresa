@@ -231,7 +231,6 @@ const Home = () => {
               </div>
               <div>
                 <div style={{height:70, 
-                  //backgroundColor:"green",
                   display:"flex",alignItems:"center",justifyContent:"center",gap:10}}>
                   <div style={{display:"flex",flexDirection:"column",}}>
                     <span>Desde</span>

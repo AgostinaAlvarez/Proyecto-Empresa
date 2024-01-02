@@ -40,8 +40,7 @@ const RemitoDetalle = () => {
               <HeaderSection
                 name={`Remito Detalle`}
                 IconS={<BsFillInboxesFill style={{fontSize:30}}/>}
-                //actionName={'Imprimir factura'}
-                //action={imprimir}
+                
               />
             </>
           }
