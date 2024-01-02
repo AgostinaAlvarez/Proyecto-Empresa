@@ -160,46 +160,16 @@ const RemitosP = () => {
       console.log(response)
 
       if(response.data.remito.length !== 0){
+
+        console.log('remito')
+        console.log(response.data)
         setRemito(response.data.remito[0]);
         setCliente(response.data.cliente[0]);
+        
         setProductos(response.data.productos);
+        
         setDatosFactura(response.data.detalleFactura[0]);
 
-        //let IVA21 = 0;
-        //let IVA10 = 0;
-        //let IVA27 = 0;
-        //let bonificacion = 0;
-        //let subtotal = 0;
-//
-        //response.data.productos.map((item)=>{
-        //  
-        //  let bonificacionRdo = ((item.bonificacion*(item.precio*item.cantidad))/100);
-//
-        //  let subtotalRdo =(item.precio * item.cantidad)
-        //  
-        //  bonificacion = bonificacion + bonificacionRdo
-        //  subtotal = subtotal + subtotalRdo
-        //  
-        //  if(item.impuesto === 21){
-        //    
-        //    let total = ((item.precio*item.cantidad) - ((item.bonificacion*(item.precio*item.cantidad))/100));
-//
-        //    IVA21 = IVA21 + ((item.impuesto*total)/100)
-        //  }else if(item.impuesto === 10.5){
-        //    
-        //    let total = ((item.precio*item.cantidad) - ((item.bonificacion*(item.precio*item.cantidad))/100));
-//
-        //    IVA10 = IVA10 + ((item.impuesto*total)/100)
-        //  }else if(item.impuesto === 27){
-        //    
-        //    let total = ((item.precio*item.cantidad) - ((item.bonificacion*(item.precio*item.cantidad))/100));
-//
-        //    IVA27 = IVA27 + ((item.impuesto*total)/100)
-        //  }
-        //})
-        ////console.log({IVA10,IVA21,IVA27})
-        //console.log({IVA10,IVA21,IVA27,bonificacion})
-        //setImpuesto({IVA10,IVA21,IVA27,bonificacion,subtotal})
         setLoading(false)
         setErr(false)
       }else{
@@ -220,7 +190,7 @@ const RemitosP = () => {
         <>
           {
             err === true ?
-            <div>No se encontro la factura</div>
+            <div>No se encontro el remito</div>
             :
             <div>
               <ReactToPrint
@@ -228,6 +198,11 @@ const RemitosP = () => {
                 content={() => componentRef.current}
               />
               <ComponentToPrint ref={componentRef} remito={remito} productos={productos} cliente={cliente} datosFactura={datosFactura}/>
+              {
+                /*
+                
+                */
+              }
             </div>
           }
         </>

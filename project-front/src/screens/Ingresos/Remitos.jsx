@@ -135,9 +135,12 @@ const Remitos = () => {
         <>
           <Button style={{marginRight:"5px"}} 
           >Ver</Button>
-          <Button style={{marginRight:"5px"}} 
-          onClick={()=>{navigate(`/remitos/imprimir/${record.idRemito}`)}}
-          >Imprimir</Button>
+          {
+            record.estado === "Facturado" &&
+            <Button style={{marginRight:"5px"}} 
+            onClick={()=>{navigate(`/remitos/imprimir/${record.idRemito}`)}}
+            >Imprimir</Button>
+          }
           {record.estado === 'No facturado' && ( // Verifica si el estado es  && ( // Verifica si el estado es "Pendiente"
             <Button onClick={() => { // Agrega el botón "Pagar" cuando el estado es "Pendiente"
               facturarRemito(record.idRemito,record)
