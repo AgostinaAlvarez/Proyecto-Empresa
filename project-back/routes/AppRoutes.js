@@ -142,7 +142,18 @@ route.get('/api/detalleFactura/:id',async(req,res)=>{
         const [ factura ] = await connect.execute('SELECT * FROM facturasdeventa WHERE id = ?',[id])
         const [ productos ] = await connect.execute('SELECT productosfacturados.cantidad,productosfacturados.precio, productosfacturados.bonificacion, productosfacturados.impuesto,productos.nombre,productos.id FROM productosfacturados INNER JOIN productos ON  productosfacturados.idProducto = productos.id WHERE idFactura = ?',[id])
         const [ cliente ] = await connect.execute('SELECT  contactos.condicionIVA,contactos.nombre, contactos.id,contactos.idType,contactos.localidad,contactos.domicilio,contactos.codigoPostal,contactos.correo,contactos.celular,contactos.telefono1,contactos.telefono2 FROM facturasdeventa INNER JOIN contactos ON  facturasdeventa.contactId = contactos.id WHERE facturasdeventa.id = ?',[id])
-        return res.status(200).json({ok:true,factura,productos,cliente})
+        const [ remitos ] = await connect.execute(`
+            SELECT 
+            remitos.id AS remito_id, remitos.creacion AS remito_creacion, remitos.vencimiento AS remito_vencimiento, remitos.concepto AS remito_concepto, remitos.direccion AS remito_dirccion, remitos.total AS remito_total, 
+            vendedores.nombre AS vendedor_nombre, vendedores.typeId AS vendedor_idType, vendedores.id AS vendedor_id, vendedores.telefono AS vendedor_telefono, vendedores.correo AS vendedor_correo,
+            almacenes.nombre AS almacen_nombre
+            FROM asociacionfacturaremito 
+            JOIN remitos ON asociacionfacturaremito.idRemito = remitos.id 
+            JOIN vendedores ON remitos.vendedorId = vendedores.id
+            JOIN almacenes ON almacenes.id = remitos.almacenId
+            WHERE asociacionfacturaremito.idFactura = "${id}" 
+        `)
+        return res.status(200).json({ok:true,factura,productos,cliente,remitos})
     }catch(err){
         return res.status(400).json({ok:false})
     }
