@@ -110,7 +110,7 @@ const FacturaDeVentaDetalle = () => {
                   detail.productos.map((producto,index)=>
                   <tr key={index}>
                     <td>
-                      <button onClick={()=>{navigate('')}}>Ver producto</button>
+                      <button onClick={()=>{navigate(`/productos/${producto.id}`)}}>Ver producto</button>
                     </td>
                     <td>{producto.id}</td>
                     <td>{producto.nombre}</td>
