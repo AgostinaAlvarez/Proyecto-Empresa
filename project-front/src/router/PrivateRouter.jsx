@@ -28,6 +28,9 @@ import Capital from '../screens/Capital/Capital'
 import Analisis from '../screens/Analisis/Analisis'
 import Contabilidad from '../screens/Contabilidad/Contabilidad'
 import LibroDiario from '../screens/Contabilidad/LibroDiario'
+import NuevoLibroDiario from '../screens/Contabilidad/LibroDiario/NuevoLibroDiario'
+import ImprimirLibroDiario from '../screens/Contabilidad/LibroDiario/ImprimirLibroDiario'
+import DetalleLibroDiarios from '../screens/Contabilidad/LibroDiario/DetalleLibroDiarios'
 
 const PrivateRouter = () => {
   return (
