@@ -7,4 +7,3 @@ export const config = {
     password: 'pin420608',
     database: 'proyecto1'
 }
-   

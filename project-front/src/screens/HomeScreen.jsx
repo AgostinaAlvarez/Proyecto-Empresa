@@ -61,6 +61,7 @@ import ImprimirLibroDiario from './Contabilidad/LibroDiario/ImprimirLibroDiario'
 import NuevoLibroMayor from './Contabilidad/LibroMayor/NuevoLibroMayor';
 import DetalleLibroDiarios from './Contabilidad/LibroDiario/DetalleLibroDiarios';
 import FacturaDeVentaDetalle from './Ingresos/FacturaDeVentaDetalle';
+import AsideSection from '../components/AsideSection';
 
 const HomeScreen = () => {
   const navigate = useNavigate();
@@ -93,118 +94,7 @@ const HomeScreen = () => {
         <span style={{fontWeight:"500"}}>Salir</span>
       </header>
       <main className='main'>
-        <aside className='mainAside'>
-          <div className='asideItem' onClick={()=>{navigate('/')}}>
-            <IoHomeOutline/>
-            <span>Inicio</span>
-          </div>
-          <div className='asideItem' onClick={()=>{
-            setSubmenuIngresos(!submenuIngresos);
-            setSubmenuGastos(false);
-            setSubmenuContactos(false);
-            setSubmenuInventario(false);
-          }
-          }>
-            <BsArrowDownLeftCircle/>
-            <span>Ingresos</span>
-            {submenuIngresos === true ? <IoIosArrowUp className='asideItemOpen'/> : <IoIosArrowDown className='asideItemOpen'/> }
-          </div>
-          {
-            submenuIngresos === true ?
-            <div style={{display:"flex",flexDirection:"column"}}>
-              <div className='asideSubItem' onClick={()=>{navigate('/facturas')}}>Facturas de venta</div>
-              <div className='asideSubItem' onClick={()=>{navigate('/cobranzas')}}>Cobranzas</div>
-              <div className='asideSubItem' onClick={()=>{navigate('/remitos')}}>Remitos</div>
-            </div>
-            :
-            <></>
-          }
-          <div className='asideItem' onClick={()=>{
-            setSubmenuGastos(!submenuGastos);
-            setSubmenuIngresos(false);
-            setSubmenuContactos(false);
-            setSubmenuInventario(false);
-          }}>
-            <BsArrowUpRightCircle/>
-            <span>Gastos</span>
-            {submenuGastos === true ? <IoIosArrowUp className='asideItemOpen'/> : <IoIosArrowDown className='asideItemOpen'/> }
-          </div>
-          {
-            submenuGastos === true ?
-            <div style={{display:"flex",flexDirection:"column"}}>
-                <div className='asideSubItem' onClick={()=>{navigate('/facturasDeProveedores')}}>Facturas de proveedores</div>
-                <div className='asideSubItem' onClick={()=>{navigate('/pagos')}}>Pagos</div>
-            </div>
-            :
-            <></>
-          }
-          {/*CONTACTOS*/}
-          <div className='asideItem' onClick={()=>{
-            setSubmenuContactos(!submenuContactos);
-            setSubmenuIngresos(false);
-            setSubmenuGastos(false);
-            setSubmenuInventario(false);
-          }}>
-            <LuUsers/>
-            <span>Contactos</span>
-            {submenuContactos === true ? <IoIosArrowUp className='asideItemOpen'/> : <IoIosArrowDown className='asideItemOpen'/> }
-          </div>
-          {
-            submenuContactos === true ?
-            <div style={{display:"flex",flexDirection:"column"}}>
-                <div className='asideSubItem' onClick={()=>{navigate('/contactos')}}>Todos</div>
-                <div className='asideSubItem' onClick={()=>{navigate('/clientes')}}>Clientes</div>
-                <div className='asideSubItem' onClick={()=>{navigate('/proveedores')}}>Proveedores</div>
-            </div>
-            :
-            <></>
-          }
-          <div className='asideItem' onClick={()=>{
-            setSubmenuInventario(!submenuInventario);
-            setSubmenuIngresos(false);
-            setSubmenuGastos(false);
-            setSubmenuContactos(false);
-          }}>
-            <BsBoxSeam/>
-            <span>Inventario</span>
-            {submenuInventario === true ? <IoIosArrowUp className='asideItemOpen'/> : <IoIosArrowDown className='asideItemOpen'/> }
-          </div>
-          {
-            submenuInventario === true ?
-            <div style={{display:"flex",flexDirection:"column"}}>
-              <div className='asideSubItem' onClick={()=>{navigate('/productos')}}>Inventario</div>
-              <div className='asideSubItem' onClick={()=>{navigate('/ajusteDeInventario')}}>Ajustes de inventario</div>
-              <div className='asideSubItem' onClick={()=>{navigate('/depositos')}}>Depositos</div>
-            </div>
-            :
-            <></>
-          }
-          <div className='asideItem' onClick={()=>{navigate('/formularios')}}>
-            <LiaClipboardListSolid/>
-            <span>Formularios</span>
-          </div>
-          <div className='asideItem' onClick={()=>{navigate('/presupuestos')}}>
-            <CiViewList/>
-            <span>Presupuestos</span>
-          </div>
-          <div className='asideItem' onClick={()=>{navigate('/bancos')}}>
-            <BsBank/>
-            <span>Banco</span>
-          </div>
-          <div className='asideItem' onClick={()=>{navigate('/capital')}}>
-            <TbPigMoney/>
-            <span>Capital</span>
-          </div>
-          <div className='asideItem' onClick={()=>{navigate('/contabilidad')}}>
-            <TbAbacus/>
-            <span>Contabilidad</span>
-          </div>
-          <div className='asideItem' onClick={()=>{navigate('/analisis')}}>
-            <BsGraphUp/>
-            <span>Analisis</span>
-          </div>
-          
-        </aside>
+        <AsideSection/>
         <div className='mainView'>
           <Routes>
             <Route path='/' element ={<Home/>}/>
