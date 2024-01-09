@@ -22,6 +22,8 @@ import Gastos from '../screens/Gatos/Gastos'
 import FacturasDeProveedores from '../screens/Gatos/FacturasDeProveedores'
 import NuevaFacturaDeProveedor from '../screens/Gatos/NuevaFacturaDeProveedor'
 import NuevoPago from '../screens/Gatos/NuevoPago'
+import Formularios from '../screens/Formularios/Formularios'
+import Presupuestos from '../screens/Presupuestos/Presupuestos'
 
 const PrivateRouter = () => {
   return (
