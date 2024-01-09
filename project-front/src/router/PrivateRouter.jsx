@@ -24,6 +24,10 @@ import NuevaFacturaDeProveedor from '../screens/Gatos/NuevaFacturaDeProveedor'
 import NuevoPago from '../screens/Gatos/NuevoPago'
 import Formularios from '../screens/Formularios/Formularios'
 import Presupuestos from '../screens/Presupuestos/Presupuestos'
+import Capital from '../screens/Capital/Capital'
+import Analisis from '../screens/Analisis/Analisis'
+import Contabilidad from '../screens/Contabilidad/Contabilidad'
+import LibroDiario from '../screens/Contabilidad/LibroDiario'
 
 const PrivateRouter = () => {
   return (
