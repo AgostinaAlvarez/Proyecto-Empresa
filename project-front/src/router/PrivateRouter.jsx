@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes } from 'react-router-dom'
 import Home from '../screens/Home'
 import Bancos from '../screens/Bancos'
 import FacturasDeVenta from '../screens/Ingresos/FacturasDeVenta'
@@ -31,6 +31,13 @@ import LibroDiario from '../screens/Contabilidad/LibroDiario'
 import NuevoLibroDiario from '../screens/Contabilidad/LibroDiario/NuevoLibroDiario'
 import ImprimirLibroDiario from '../screens/Contabilidad/LibroDiario/ImprimirLibroDiario'
 import DetalleLibroDiarios from '../screens/Contabilidad/LibroDiario/DetalleLibroDiarios'
+import LibroMayor from '../screens/Contabilidad/LibroMayor'
+import NuevoLibroMayor from '../screens/Contabilidad/LibroMayor/NuevoLibroMayor'
+import SaldosMensuales from '../screens/Contabilidad/SaldosMensuales'
+import BalanceDeSumSal from '../screens/Contabilidad/BalanceDeSumSal'
+import AsientoContable from '../screens/Contabilidad/AsientoContable'
+import NotasDeDebito from '../screens/NotasDeDebito'
+import NotasDeCredito from '../screens/NotasDeCredito'
 
 const PrivateRouter = () => {
   return (
@@ -98,8 +105,9 @@ const PrivateRouter = () => {
             <Route path='/notasDeDebito' element={<NotasDeDebito/>}/>
             <Route path='/notasDeCredito' element={<NotasDeCredito/>}/>
 
-            <Route path='/login' element={<Navigate to="/"/>}/>
 
+
+            <Route path='/login' element={<Navigate to="/"/>}/>
             <Route path='/test' element={<Factura/>}/>
     </Routes>
   )
