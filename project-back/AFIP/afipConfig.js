@@ -11,9 +11,7 @@ const afipConfig = {
     debug: true, // indica si se deben mostrar datos de ejecucion
 }
 
-
 const wsaa = new Wsaa(afipConfig)
-
 
 wsaa.setCertificate(pem)
 wsaa.setKey(key)

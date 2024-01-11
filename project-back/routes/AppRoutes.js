@@ -1,15 +1,14 @@
 import { Router, json } from "express";
 import { connect } from "../db/db.js";
-import { TesterFnc, getContacts } from "../controllers/controllers.js";
+import { TesterFnc, checkAuth, getContacts, verifyToken } from "../controllers/controllers.js";
 
 
 const route = Router()
 
 route.get('/',TesterFnc)
 
-//Creacion del middleware 
+route.get('/api/check-auth',verifyToken,checkAuth)
 
-/////
 route.get('/api/getContacts',getContacts)
 
 

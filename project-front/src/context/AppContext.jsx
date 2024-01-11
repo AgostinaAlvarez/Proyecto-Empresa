@@ -6,7 +6,7 @@ export const AppContext = createContext();
 
 export const AppContextProvider = (props) =>{
   
-  const [ logged,setLogged ] = useState(true);
+  const [ logged,setLogged ] = useState(false);
   const [ contactos,setContactos ] = useState([]);
   const [ clientes,setClientes ] = useState([]);
   const [ proveedores,setProveedores ] = useState([]);
@@ -39,10 +39,12 @@ export const AppContextProvider = (props) =>{
   const [ watch,setWatch ] = useState(false)
   //** */
 
+  const axiosCredentials = { withCredentials: true }
+
 
   async function getContacts (){
     try{
-      const response = await axios.get('http://localhost:3000/api/getContacts')
+      const response = await axios.get('http://localhost:3000/api/getContacts',axiosCredentials)
       setContactos(response.data.contactos);
       setClientes(response.data.clientes);
       setProveedores(response.data.proveedores);
@@ -53,7 +55,7 @@ export const AppContextProvider = (props) =>{
   
   async function getWarehouse (){
     try{
-      const response = await axios.get('http://localhost:3000/api/getWarehouse')
+      const response = await axios.get('http://localhost:3000/api/getWarehouse',axiosCredentials)
       setAlmacenes(response.data.depositos);
     }catch(err){
       console.log(err);
@@ -63,7 +65,7 @@ export const AppContextProvider = (props) =>{
 
   async function getProducts(){
     try{
-      const response = await axios.get('http://localhost:3000/api/getProducts');
+      const response = await axios.get('http://localhost:3000/api/getProducts',axiosCredentials);
       setProductos(response.data.productos);
     }catch(err){
       console.log(err);
@@ -72,7 +74,7 @@ export const AppContextProvider = (props) =>{
 
   async function getNumeracionesFacturas (){
     try{
-      const response = await axios.get('http://localhost:3000/api/numeracionFacturas');
+      const response = await axios.get('http://localhost:3000/api/numeracionFacturas',axiosCredentials);
       setNumeracionFacturas(response.data.numeracionesFacturas);
     }catch(err){
       console.log(err);
@@ -82,7 +84,7 @@ export const AppContextProvider = (props) =>{
 
   async function getFacturas(){
     try{
-      const response = await axios.get('http://localhost:3000/api/getFacturas');
+      const response = await axios.get('http://localhost:3000/api/getFacturas',axiosCredentials);
       setFacturas(response.data.facturas)
     }catch(err){
       console.log(err)
@@ -110,7 +112,7 @@ export const AppContextProvider = (props) =>{
 
   async function getAjustesDeInventario (){
     try{
-      const response = await axios.get('http://localhost:3000/api/ajustesDeInventario')
+      const response = await axios.get('http://localhost:3000/api/ajustesDeInventario',axiosCredentials)
       setAjustesDeInventario(response.data.ajustes)
     }catch(err){
       console.log(err)
@@ -119,7 +121,7 @@ export const AppContextProvider = (props) =>{
 
   async function getVendedores (){
     try{
-      const response = await axios.get('http://localhost:3000/api/vendedores')
+      const response = await axios.get('http://localhost:3000/api/vendedores',axiosCredentials)
       setVendedores(response.data.vendedores)
     }catch(err){
       console.log(err)
@@ -128,7 +130,7 @@ export const AppContextProvider = (props) =>{
 
   async function getRemitos (){
     try{
-      const response = await axios.get('http://localhost:3000/api/remitos')
+      const response = await axios.get('http://localhost:3000/api/remitos',axiosCredentials)
       setRemitos(response.data.remitos)
     }catch(err){
       console.log(err)
@@ -137,7 +139,7 @@ export const AppContextProvider = (props) =>{
 
   async function getCobranzas (){
     try{
-      const response = await axios.get('http://localhost:3000/api/cobranzas');
+      const response = await axios.get('http://localhost:3000/api/cobranzas',axiosCredentials);
       setCobranzas(response.data.cobranzas);
     }catch(err){
       console.log(err)
@@ -159,7 +161,7 @@ export const AppContextProvider = (props) =>{
 
   async function getBancos (){
     try{
-      const response = await axios.get('http://localhost:3000/api/bancos')
+      const response = await axios.get('http://localhost:3000/api/bancos',axiosCredentials)
       setBancos(response.data.bancos)
     }catch(err){
       console.log(err)
@@ -168,7 +170,7 @@ export const AppContextProvider = (props) =>{
 
   async function getBalance(){
     try{
-      const response = await axios.get('http://localhost:3000/api/balance');
+      const response = await axios.get('http://localhost:3000/api/balance',axiosCredentials);
       setIngresos(response.data.ingresos)
       setGastos(response.data.gastos);
       setGananciasPorFacturas(response.data.gananciasPorFacturas);
@@ -180,7 +182,7 @@ export const AppContextProvider = (props) =>{
 
   async function getFacturasDeProveedores (){
     try{
-      const response = await axios.get('http://localhost:3000/api/facturasdeproveedores');
+      const response = await axios.get('http://localhost:3000/api/facturasdeproveedores',axiosCredentials);
       setFacturasDeProveedores(response.data.facturas)
     }catch(err){
       console.log(err)
@@ -189,7 +191,7 @@ export const AppContextProvider = (props) =>{
 
   async function getCapital(){
     try{
-      const response = await axios.get('http://localhost:3000/api/capital');
+      const response = await axios.get('http://localhost:3000/api/capital',axiosCredentials);
       setCapital(response.data.capital)
       setMontoDeInversion(response.data.inversion)
       //console.log(response.data.capital)
@@ -200,7 +202,7 @@ export const AppContextProvider = (props) =>{
 
   async function getPagos(){
     try{
-      const response = await axios.get('http://localhost:3000/api/pagos');
+      const response = await axios.get('http://localhost:3000/api/pagos',axiosCredentials);
       console.log('Pagos')
       console.log(response.data.pagos)
       setPagos(response.data.pagos)

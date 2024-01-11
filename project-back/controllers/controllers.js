@@ -1,4 +1,46 @@
 import { connect } from "../db/db.js";
+import cookieParser from "cookie-parser";
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
+import 'dotenv/config';
+
+//Middleware para verificar token
+export const verifyToken = (req,res,next) =>{
+    try{
+      const token = req.cookies.tkn
+      const validPayload = jwt.verify(token,process.env.JWT_SECRET_KEY)
+      next()
+    }catch(err){
+      return res.status(401).json({ok:false,message:'invalid token',tkn:token})
+    }
+}
+//Funcion check auth
+export const checkAuth = async (req,res) =>{
+    return res.status(200).json({ok:true,message:"auth token!"})
+}
+
+//Login de usuario:
+export const login = async (req,res) =>{
+    const { email,password } = req.body;
+    try{    
+        const result = await connUser.execute('SELECT * FROM usuarios WHERE email = ?',[email]);
+        if(result.rows.length !== 1){
+          return res.status(401).json({ok:false,message:"el email no es valido"});
+        }
+        const user = result.rows[0]
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if(!isPasswordValid){
+          return res.json({ok:false,message:"contraseña incorrecta"}).status(400);
+        }
+        const token = jwt.sign({nombre:'usuario'}, process.env.JWT_SECRET_KEY);
+        return res.status(200).json({ ok: true, message: 'Login exitoso', tkn: token, data:{nombre:'usuario'} });
+
+    }catch(err){
+        return res.json({ok:false,message:"error del servidor"}).status(400)
+    }
+}
+
+
 
 
 //

@@ -1,0 +1,4 @@
+/*
+const transformPass = await bcrypt.hash('unacontra',  parseInt(process.env.BCRYPT_HASH))
+console.log(transformPass)
+*/
