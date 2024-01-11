@@ -1,4 +1,4 @@
-import { Router, json } from "express"
+import { Router, json } from "express";
 import { connect } from "../db/db.js";
 import { TesterFnc, getContacts } from "../controllers/controllers.js";
 
@@ -6,6 +6,8 @@ import { TesterFnc, getContacts } from "../controllers/controllers.js";
 const route = Router()
 
 route.get('/',TesterFnc)
+
+//Creacion del middleware 
 
 /////
 route.get('/api/getContacts',getContacts)

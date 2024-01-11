@@ -1,9 +1,9 @@
-import 'dotenv/config'
+import 'dotenv/config';
 
 export const config = {
     host: process.env.APP_HOST,
-    port: 3306, 
-    user:'root',
-    password: 'pin420608',
-    database: 'proyecto1'
+    port: process.env.APP_PORT, 
+    user:process.env.APP_USER,
+    password: process.env.APP_PASSWORD,
+    database: process.env.APP_DATABASE
 }

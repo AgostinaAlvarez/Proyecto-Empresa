@@ -320,6 +320,16 @@ CREATE TABLE itemsFP(
   FOREIGN KEY (idFactura) REFERENCES facturasdeproveedores(nmro)
 );
 
+
+CREATE TABLE materiales(
+  id VARCHAR(100) NOT NULL,
+  nombre VARCHAR(300)
+);
+
+
+CREATE 
+
+
 SELECT *
 FROM registro
 WHERE fecha BETWEEN '2023-11-20' AND '2023-12-05';
