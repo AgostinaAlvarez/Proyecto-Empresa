@@ -2,9 +2,10 @@
 import React, { useContext, useState } from 'react'
 import { AppContext } from '../context/AppContext'
 import Logo from '../assets/LogoLgn.png'
+import axios from 'axios';
+import { serverURL } from '../../protectedRoutes';
 const LoginScreen = () => {
   const { setLogged,getDatos } = useContext(AppContext);
-
   const [userData,setUserData] = useState({email:"",password:""})
 
   function handleChangeEmail (e){
@@ -19,12 +20,24 @@ const LoginScreen = () => {
     })
   }
 
-  /*Hay que mejorar esto */
-
   function handleSubmit (e){
     e.preventDefault()
-    if(userData.email === "a" && userData.password === "1" ){
-      getDatos()    
+    userData.email.trim() !== '' && userData.password.trim() !== '' ? loginApp() : alert('debes rellenar todos los campos') 
+  }
+
+  async function loginApp (){
+    try{
+      const response = await axios.post(`${serverURL}/api/login`,userData,{ withCredentials: true })
+      if(response.data.ok === true){
+        setLogged(true)
+        const expires = new Date();
+        expires.setTime(expires.getTime() + 7 * 24 * 60 * 60 * 1000);
+        document.cookie = `tkn=${response.tkn};expires=${expires.toUTCString()};path=/`;
+      }else{
+        alert('Datos de usuario incorrectos')
+      }
+    }catch(err){
+      alert('Error del servidor')
     }
   }
 

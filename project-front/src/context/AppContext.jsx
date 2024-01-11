@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import axios from "axios";
 import { createContext, useState } from "react";
+import { serverURL } from "../../protectedRoutes";
 
 export const AppContext = createContext();
 
@@ -44,7 +45,7 @@ export const AppContextProvider = (props) =>{
 
   async function getContacts (){
     try{
-      const response = await axios.get('http://localhost:3000/api/getContacts',axiosCredentials)
+      const response = await axios.get(`${serverURL}/api/getContacts`,axiosCredentials)
       setContactos(response.data.contactos);
       setClientes(response.data.clientes);
       setProveedores(response.data.proveedores);
@@ -55,7 +56,7 @@ export const AppContextProvider = (props) =>{
   
   async function getWarehouse (){
     try{
-      const response = await axios.get('http://localhost:3000/api/getWarehouse',axiosCredentials)
+      const response = await axios.get(`${serverURL}/api/getWarehouse`,axiosCredentials)
       setAlmacenes(response.data.depositos);
     }catch(err){
       console.log(err);
@@ -65,7 +66,7 @@ export const AppContextProvider = (props) =>{
 
   async function getProducts(){
     try{
-      const response = await axios.get('http://localhost:3000/api/getProducts',axiosCredentials);
+      const response = await axios.get(`${serverURL}/api/getProducts`,axiosCredentials);
       setProductos(response.data.productos);
     }catch(err){
       console.log(err);
@@ -74,7 +75,7 @@ export const AppContextProvider = (props) =>{
 
   async function getNumeracionesFacturas (){
     try{
-      const response = await axios.get('http://localhost:3000/api/numeracionFacturas',axiosCredentials);
+      const response = await axios.get(`${serverURL}/api/numeracionFacturas`,axiosCredentials);
       setNumeracionFacturas(response.data.numeracionesFacturas);
     }catch(err){
       console.log(err);
@@ -84,7 +85,7 @@ export const AppContextProvider = (props) =>{
 
   async function getFacturas(){
     try{
-      const response = await axios.get('http://localhost:3000/api/getFacturas',axiosCredentials);
+      const response = await axios.get(`${serverURL}/api/getFacturas`,axiosCredentials);
       setFacturas(response.data.facturas)
     }catch(err){
       console.log(err)
@@ -96,7 +97,7 @@ export const AppContextProvider = (props) =>{
   function orderArray (data){
     const updateData = data
     updateData.sort((a, b) => {
-      const nombreA = a.nombre.toUpperCase(); // Convierte a mayúsculas para ordenar sin distinción de mayúsculas/minúsculas
+      const nombreA = a.nombre.toUpperCase(); // Convierte a mayusculas para ordenar sin distincion de mayusculas/minusculas
       const nombreB = b.nombre.toUpperCase();
       if (nombreA < nombreB) {
         return -1;
@@ -112,7 +113,7 @@ export const AppContextProvider = (props) =>{
 
   async function getAjustesDeInventario (){
     try{
-      const response = await axios.get('http://localhost:3000/api/ajustesDeInventario',axiosCredentials)
+      const response = await axios.get(`${serverURL}/api/ajustesDeInventario`,axiosCredentials)
       setAjustesDeInventario(response.data.ajustes)
     }catch(err){
       console.log(err)
@@ -121,7 +122,7 @@ export const AppContextProvider = (props) =>{
 
   async function getVendedores (){
     try{
-      const response = await axios.get('http://localhost:3000/api/vendedores',axiosCredentials)
+      const response = await axios.get(`${serverURL}/api/vendedores`,axiosCredentials)
       setVendedores(response.data.vendedores)
     }catch(err){
       console.log(err)
@@ -130,7 +131,7 @@ export const AppContextProvider = (props) =>{
 
   async function getRemitos (){
     try{
-      const response = await axios.get('http://localhost:3000/api/remitos',axiosCredentials)
+      const response = await axios.get(`${serverURL}/api/remitos`,axiosCredentials)
       setRemitos(response.data.remitos)
     }catch(err){
       console.log(err)
@@ -139,7 +140,7 @@ export const AppContextProvider = (props) =>{
 
   async function getCobranzas (){
     try{
-      const response = await axios.get('http://localhost:3000/api/cobranzas',axiosCredentials);
+      const response = await axios.get(`${serverURL}/api/cobranzas`,axiosCredentials);
       setCobranzas(response.data.cobranzas);
     }catch(err){
       console.log(err)
@@ -161,7 +162,7 @@ export const AppContextProvider = (props) =>{
 
   async function getBancos (){
     try{
-      const response = await axios.get('http://localhost:3000/api/bancos',axiosCredentials)
+      const response = await axios.get(`${serverURL}/api/bancos`,axiosCredentials)
       setBancos(response.data.bancos)
     }catch(err){
       console.log(err)
@@ -170,7 +171,7 @@ export const AppContextProvider = (props) =>{
 
   async function getBalance(){
     try{
-      const response = await axios.get('http://localhost:3000/api/balance',axiosCredentials);
+      const response = await axios.get(`${serverURL}/api/balance`,axiosCredentials);
       setIngresos(response.data.ingresos)
       setGastos(response.data.gastos);
       setGananciasPorFacturas(response.data.gananciasPorFacturas);
@@ -182,7 +183,7 @@ export const AppContextProvider = (props) =>{
 
   async function getFacturasDeProveedores (){
     try{
-      const response = await axios.get('http://localhost:3000/api/facturasdeproveedores',axiosCredentials);
+      const response = await axios.get(`${serverURL}/api/facturasdeproveedores`,axiosCredentials);
       setFacturasDeProveedores(response.data.facturas)
     }catch(err){
       console.log(err)
@@ -191,7 +192,7 @@ export const AppContextProvider = (props) =>{
 
   async function getCapital(){
     try{
-      const response = await axios.get('http://localhost:3000/api/capital',axiosCredentials);
+      const response = await axios.get(`${serverURL}/api/capital`,axiosCredentials);
       setCapital(response.data.capital)
       setMontoDeInversion(response.data.inversion)
       //console.log(response.data.capital)
@@ -202,7 +203,7 @@ export const AppContextProvider = (props) =>{
 
   async function getPagos(){
     try{
-      const response = await axios.get('http://localhost:3000/api/pagos',axiosCredentials);
+      const response = await axios.get(`${serverURL}/api/pagos`,axiosCredentials);
       console.log('Pagos')
       console.log(response.data.pagos)
       setPagos(response.data.pagos)
