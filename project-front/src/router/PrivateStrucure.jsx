@@ -1,13 +1,13 @@
 /* eslint-disable no-unused-vars */
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { AppContext } from '../context/AppContext';
 import { IoLogOutOutline } from "react-icons/io5";
-
 import AsideSection from '../components/AsideSection';
-import PrivateRouter from '../router/PrivateRouter';
+import PrivateRouter from './PrivateRouter';
+import { AppContext } from '../context/AppContext';
 
-const HomeScreen = () => {
+
+const PrivateStructure = () => {
   const { getPagos,getCapital,getFacturasDeProveedores,getBalance,getBancos,getContacts,getProducts,getWarehouse,productos,getNumeracionesFacturas,getFacturas,getAjustesDeInventario,getVendedores,getRemitos,getCobranzas } = useContext(AppContext);
   useEffect(() => {
     getCobranzas();
@@ -41,4 +41,4 @@ const HomeScreen = () => {
   )
 }
 
-export default HomeScreen
+export default PrivateStructure

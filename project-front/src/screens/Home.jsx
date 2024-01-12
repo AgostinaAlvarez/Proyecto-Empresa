@@ -36,9 +36,9 @@ const Home = () => {
   };
 
   useEffect(() => {
-    console.log('hola')
-    console.log(ingresos)
-    console.log(gastos)
+    //console.log('hola')
+    //console.log(ingresos)
+    //console.log(gastos)
     getData()
   }, [])
   
@@ -60,7 +60,7 @@ const Home = () => {
       setIngresos(response.data.ingresos)
       setGastos(response.data.gastos);
       setGananciasPorFacturas(response.data.gananciasPorFacturas);
-      console.log(response.data.gananciasPorFacturas)
+      //console.log(response.data.gananciasPorFacturas)
 
       let totalGananciasPorFacturas = 0;
       let totalIngresosReales = 0;
@@ -88,8 +88,8 @@ const Home = () => {
     try{
       const response = await axios.get('http://localhost:3000/api/cobranzas');
       const responsePagos = await axios.get('http://localhost:3000/api/pagos');
-      console.log('PAGOS')
-      console.log(responsePagos.data.pagos);
+      //console.log('PAGOS')
+      //console.log(responsePagos.data.pagos);
       //setPagos(response.data.pagos);
       setCobranzas(response.data.cobranzas);
       
@@ -167,15 +167,14 @@ const Home = () => {
             tension: 0.1,
           },
           {
-            label: 'Gastos', // Nombre de la nueva línea
-            data: gastt, // Nuevos datos para la segunda línea
+            label: 'Gastos',
+            data: gastt, 
             fill: false,
-            borderColor: '#FF8F8F', // Color de la segunda línea
+            borderColor: '#FF8F8F',
             tension: 0.1,
         },
         ],
       };
-      //console.log(datas)
       setData(datas)
     }catch(err){
       console.log(err)

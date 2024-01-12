@@ -1,28 +1,19 @@
 /* eslint-disable no-unused-vars */
-import React, { useContext, useState } from 'react'
-import { Navigate, Route, Routes, useNavigate } from 'react-router-dom'
-import LoginScreen from '../screens/LoginScreen'
+import React, { useContext } from 'react'
 import { AppContext } from '../context/AppContext'
-import HomeScreen from '../screens/HomeScreen'
-import Loading from '../components/Loading'
+import PrivateStructure from './PrivateStrucure'
+import PublicRoutes from './PublicRoutes'
 
 const AppRouter = () => {
-
   const { logged } = useContext(AppContext);
   return (
     <>
-      
-          {
-            logged === true ?
-            <HomeScreen/>
-            :
-            <Routes>
-                <Route path='/login' element={<LoginScreen/>}/>
-                <Route path='/*' element={<Navigate to='/login'/>}/>
-            </Routes>
-            
-          }
-       
+      {
+        logged === true ?
+        <PrivateStructure/>
+        :
+        <PublicRoutes/>
+      } 
     </>
   )
 }
