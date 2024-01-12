@@ -57,11 +57,35 @@ export const TesterFnc = async(req,res)=>{
 
 export const getContacts = async(req,res) =>{
     try{
-        const [contactos] = await connect.execute('SELECT * FROM contactos ORDER BY nombre');
-        const [clientes] = await connect.execute('SELECT * FROM clientes JOIN contactos ON clientes.contactId = contactos.id');
-        const [proveedores] = await connect.execute('SELECT * FROM proveedores JOIN contactos ON proveedores.contactId = contactos.id');
+        const [contactos] = await connect.execute('SELECT id,idType,nombre,correo FROM contactos ORDER BY nombre');
+        const [clientes] = await connect.execute('SELECT contactos.id,contactos.idType,contactos.nombre,contactos.correo FROM clientes JOIN contactos ON clientes.contactId = contactos.id');
+        const [proveedores] = await connect.execute('SELECT contactos.id,contactos.idType,contactos.nombre,contactos.correo FROM proveedores JOIN contactos ON proveedores.contactId = contactos.id');
         return res.status(200).json({ok:true,contactos,clientes,proveedores});
     }catch(err){
         return res.status(400).json({ok:false,message:err});
     }
+}
+
+
+export const createContact = async(req,res) =>{
+    const { id,idType, nombre,condicionIVA,localidad,domicilio,codigoPostal,correo,celular,telefono1,telefono2,categoria } = req.body;
+    try{
+        await connect.execute('INSERT INTO contactos (id,idType, nombre,condicionIVA,localidad,domicilio,codigoPostal,correo,celular,telefono1,telefono2) VALUES (?,?,?,?,?,?,?,?,?,?,?)',[id,idType, nombre,condicionIVA,localidad,domicilio,codigoPostal,correo,celular,telefono1,telefono2]);
+        if(categoria === "Ambas"){
+            await connect.execute('INSERT INTO clientes (contactId) VALUES (?)',[id]);
+            await connect.execute('INSERT INTO proveedores (contactId) VALUES (?)',[id]);
+            return res.status(200).json({ok:true})
+        }else{
+            if(categoria === "cliente"){
+                await connect.execute('INSERT INTO clientes (contactId) VALUES (?)',[id]);
+                return res.status(200).json({ok:true})
+            }else if(categoria === "proveedor"){
+                await connect.execute('INSERT INTO proveedores (contactId) VALUES (?)',[id]);
+                return res.status(200).json({ok:true})
+            }
+        }
+    }catch(err){
+        return res.status(400).json({ok:false})
+    }
+
 }

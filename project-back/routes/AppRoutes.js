@@ -9,7 +9,7 @@ route.get('/',TesterFnc)
 
 route.get('/api/check-auth',verifyToken,checkAuth)
 
-route.get('/api/getContacts',getContacts)
+route.get('/api/getContacts',verifyToken,getContacts)
 
 
 route.post('/api/createContact',async(req,res)=>{
