@@ -6,7 +6,9 @@ import { serverURL } from "../../protectedRoutes";
 export const AppContext = createContext();
 
 export const AppContextProvider = (props) =>{
-  
+
+  const [ openSubMenu,setOpenSubMenu ] = useState(false);
+
   const [ logged,setLogged ] = useState(false);
   const [ contactos,setContactos ] = useState([]);
   const [ clientes,setClientes ] = useState([]);
@@ -214,6 +216,7 @@ export const AppContextProvider = (props) =>{
 
   return(
     <AppContext.Provider value={{
+      openSubMenu,setOpenSubMenu,
       logged,setLogged,
       contactos,setContactos,
       clientes,setClientes,

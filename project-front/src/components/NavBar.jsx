@@ -1,9 +1,10 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import SubMenuProfile from './SubMenuProfile';
+import { AppContext } from '../context/AppContext';
 
 const NavBar = () => {
-  const [ openSubMenu,setOpenSubMenu ] = useState(false);
+  const { openSubMenu,setOpenSubMenu } = useContext(AppContext);
 
   return (
     <header className='header'>

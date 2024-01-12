@@ -39,11 +39,15 @@ import BalanceDeSumSal from '../screens/Contabilidad/BalanceDeSumSal'
 import AsientoContable from '../screens/Contabilidad/AsientoContable'
 import NotasDeDebito from '../screens/NotasDeDebito'
 import NotasDeCredito from '../screens/NotasDeCredito'
+import ProfileScreen from '../screens/Profile/ProfileScreen'
 
 const PrivateRouter = () => {
   return (
     <Routes>
             <Route path='/' element ={<Home/>}/>
+            {/*PROFILE*/}
+            <Route path='/profile' element={<ProfileScreen/>} />
+            {/*BANCOS*/}
             <Route path='/banco' element={<div>Banco</div>}/>
             <Route path='/bancos' element={<Bancos/>}/>
             {/*INGRESOS*/}

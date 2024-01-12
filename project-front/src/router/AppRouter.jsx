@@ -7,14 +7,7 @@ import PublicRoutes from './PublicRoutes'
 const AppRouter = () => {
   const { logged } = useContext(AppContext);
   return (
-    <>
-      {
-        logged === true ?
-        <PrivateStructure/>
-        :
-        <PublicRoutes/>
-      } 
-    </>
+    <>{ logged === true ? <PrivateStructure/> : <PublicRoutes/>}</>
   )
 }
 
