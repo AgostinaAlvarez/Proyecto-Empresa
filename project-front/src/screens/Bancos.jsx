@@ -6,17 +6,11 @@ import { AppContext } from '../context/AppContext';
 
 
 const Bancos = () => {
+  
   const { bancos } = useContext(AppContext);
-  
-  //useEffect(() => {
-  //  console.log(bancos)
-  //}, [])
-  
-  
   function agregarCta (){
     console.log('agregar')
   }
-
 
   return (
     <>
