@@ -1,16 +1,23 @@
 import { Router, json } from "express";
 import { connect } from "../db/db.js";
-import { TesterFnc, checkAuth, getContacts, verifyToken } from "../controllers/controllers.js";
+import { TesterFnc, checkAuth, getContacts, login, signin, verifyToken } from "../controllers/controllers.js";
 
 
 const route = Router()
 
 route.get('/',TesterFnc)
 
+//Middleware
 route.get('/api/check-auth',verifyToken,checkAuth)
 
-route.get('/api/getContacts',verifyToken,getContacts)
+//Registrar usuario
+route.post('/api/signin',verifyToken,signin)
 
+//Iniciar sesion
+route.post('/api/login',login)
+
+
+route.get('/api/getContacts',verifyToken,getContacts)
 
 route.post('/api/createContact',async(req,res)=>{
     const { id,idType, nombre,condicionIVA,localidad,domicilio,codigoPostal,correo,celular,telefono1,telefono2,categoria } = req.body;

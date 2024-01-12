@@ -4,6 +4,8 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import 'dotenv/config';
 
+
+
 //Middleware para verificar token
 export const verifyToken = (req,res,next) =>{
     try{
@@ -23,24 +25,34 @@ export const checkAuth = async (req,res) =>{
 export const login = async (req,res) =>{
     const { email,password } = req.body;
     try{    
-        const result = await connUser.execute('SELECT * FROM usuarios WHERE email = ?',[email]);
-        if(result.rows.length !== 1){
-          return res.status(401).json({ok:false,message:"el email no es valido"});
+        const result = await connect.execute('SELECT * FROM usuarios WHERE email = ?',[email]);
+        //console.log(result)
+        if(result[0].length !== 1){
+          return res.status(401).json({ok:false,code:1,message:"el email no es valido"});
         }
-        const user = result.rows[0]
+        const user = result[0][0]
         const isPasswordValid = await bcrypt.compare(password, user.password);
-        if(!isPasswordValid){
-          return res.json({ok:false,message:"contraseña incorrecta"}).status(400);
+        if(isPasswordValid === false){
+          return res.status(401).json({ok:false,code:2,message:"contraseña incorrecta"});
         }
-        const token = jwt.sign({nombre:'usuario'}, process.env.JWT_SECRET_KEY);
-        return res.status(200).json({ ok: true, message: 'Login exitoso', tkn: token, data:{nombre:'usuario'} });
-
+        const token = jwt.sign({email}, process.env.JWT_SECRET_KEY);
+        return res.status(200).json({ ok: true,code:0,message: 'Login exitoso',token});
     }catch(err){
         return res.json({ok:false,message:"error del servidor"}).status(400)
     }
 }
 
-
+//Signin de usuario:
+export const signin = async (req,res) =>{
+    const { id,email,password } = req.body;
+    const criptPass = await bcrypt.hash(password,parseInt(process.env.BCRYPT_HASH))
+    try{
+        await connect.execute('INSERT INTO usuarios (id,email,password) VALUES (?,?,?)',[id,email,criptPass])
+        return res.status(201).json({ok:true})
+    }catch(err){
+        return res.status(400).json({ok:false})
+    }
+}
 
 
 //
@@ -87,5 +99,4 @@ export const createContact = async(req,res) =>{
     }catch(err){
         return res.status(400).json({ok:false})
     }
-
 }
