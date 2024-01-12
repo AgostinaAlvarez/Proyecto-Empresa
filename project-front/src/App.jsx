@@ -13,44 +13,34 @@ function App() {
   const { setLogged } = useContext(AppContext);
   const [ loading,setLoading ] = useState(true);
 
+  useEffect(() => {
+    const jwtValue = getTknData()
+    jwtValue ? verifyTkn() : denyAcces ()
+  }, [])
+
+  function authAcces (){
+    setLogged(false)
+    setLoading(false)
+  }
+
+  function denyAcces (){
+    setLogged(false)
+    setLoading(false)
+  }
+  
   const getTknData = () => {
     const jwtCookie = document.cookie.split('; ').find(row => row.startsWith('tkn='))
     return jwtCookie ? true : null
   }
 
-
   async function verifyTkn () {
     try {
       const response = await axios.get(`${serverURL}/api/check-auth`, { withCredentials: true })
-      if(response.data.ok === true){
-        //token autorizado
-        setLogged(true)
-        setLoading(false)
-      }else{
-        //token no autorizado
-        setLogged(false)
-        setLoading(false)
-      }
+      response.data.ok === true ? authAcces() : denyAcces()
     } catch (err) {
-      //token invalido
-      setLogged(false)
-      setLoading(false)
+      denyAcces()
     }
-  }
-  
-  useEffect(() => {
-    const jwtValue = getTknData()
-    if (jwtValue) {
-      //Hay un token, hay que verificarlo
-      verifyTkn()
-    } else {
-      //No hay token en las cookies
-      setLogged(false)
-      setLoading(false)
-    }
-  }, [])
-  
-  
+  }  
 
   return (
     <>

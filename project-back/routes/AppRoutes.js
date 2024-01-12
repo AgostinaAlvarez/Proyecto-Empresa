@@ -16,7 +16,7 @@ route.post('/api/signin',verifyToken,signin)
 //Iniciar sesion
 route.post('/api/login',login)
 
-
+//obtener contactos
 route.get('/api/getContacts',verifyToken,getContacts)
 
 route.post('/api/createContact',async(req,res)=>{
