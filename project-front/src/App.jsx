@@ -19,7 +19,7 @@ function App() {
   }, [])
 
   function authAcces (){
-    setLogged(false)
+    setLogged(true)
     setLoading(false)
   }
 

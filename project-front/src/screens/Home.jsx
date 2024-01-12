@@ -14,6 +14,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 
 import { FaHome } from "react-icons/fa";
+import Loading from '../components/Loading';
 
 const Home = () => {
   const { ordenarFechas,setPagos,pagos,gananciasPorFacturas,montoDeInversion,ingresos,setIngresos,setGastos,setGananciasPorFacturas,cobranzas,setCobranzas,gastos,productos } = useContext(AppContext);
@@ -195,13 +196,9 @@ const Home = () => {
     <>
       {
         loading === true ?
-        <div>Esperando</div>
+        <Loading/>
         :
         <>
-          {
-            /*
-            */
-          }
           <div className='homeMainContent'>
             <HeaderSection
               name={'Inicio'}

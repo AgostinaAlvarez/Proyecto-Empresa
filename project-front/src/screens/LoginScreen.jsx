@@ -4,8 +4,13 @@ import { AppContext } from '../context/AppContext'
 import Logo from '../assets/LogoLgn.png'
 import axios from 'axios';
 import { serverURL } from '../../protectedRoutes';
+import Swal from 'sweetalert2'
+import Loading from '../components/Loading';
+
+
 const LoginScreen = () => {
-  const { setLogged,getDatos } = useContext(AppContext);
+  const { setLogged } = useContext(AppContext);
+  const [ loading,setLoading ] = useState(false)
   const [userData,setUserData] = useState({email:"",password:""})
 
   function handleChangeEmail (e){
@@ -22,27 +27,39 @@ const LoginScreen = () => {
 
   function handleSubmit (e){
     e.preventDefault()
-    userData.email.trim() !== '' && userData.password.trim() !== '' ? loginApp() : alert('debes rellenar todos los campos') 
+    userData.email.trim() !== '' && userData.password.trim() !== '' ? loginApp() : Swal.fire({
+      title: "Error!",
+      text: "Debes rellenar todos los campos y no dejar espacios vacios",
+      icon: "error"
+    })
   }
 
   async function loginApp (){
+    setLoading(true)
     try{
       const response = await axios.post(`${serverURL}/api/login`,userData,{ withCredentials: true })
-      if(response.data.ok === true){
-        setLogged(true)
-        const expires = new Date();
-        expires.setTime(expires.getTime() + 7 * 24 * 60 * 60 * 1000);
-        document.cookie = `tkn=${response.tkn};expires=${expires.toUTCString()};path=/`;
-      }else{
-        alert('Datos de usuario incorrectos')
-      }
+      console.log(response)
+      document.cookie =  `tkn=${response.data.token};path=/`
+      setLogged(true)
     }catch(err){
-      alert('Error del servidor')
+      console.log(err)
+      console.log(err.response.data)
+      Swal.fire({
+        title: "Error!",
+        text: err.response.data.message,
+        icon: "error"
+      })
+    }finally{
+      setLoading(false)
     }
   }
 
   return (
     <>
+    {
+      loading === true ?
+      <Loading/>
+      :
       <main className='loginBg'>
         <div className='loginCont cardShadow'>
           <img src={Logo}/>
@@ -60,6 +77,7 @@ const LoginScreen = () => {
           </form>
         </div>
       </main>
+    }
     </>
   )
 }

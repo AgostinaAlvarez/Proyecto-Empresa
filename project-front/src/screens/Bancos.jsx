@@ -8,15 +8,16 @@ import { AppContext } from '../context/AppContext';
 const Bancos = () => {
   const { bancos } = useContext(AppContext);
   
-  useEffect(() => {
-    console.log(bancos)
-  }, [])
+  //useEffect(() => {
+  //  console.log(bancos)
+  //}, [])
   
   
   function agregarCta (){
     console.log('agregar')
-
   }
+
+
   return (
     <>
       <HeaderSection
@@ -57,25 +58,6 @@ const Bancos = () => {
           )
         }
       </div>
-      {
-        /*
-          <div className='formGrid' style={{width:"100%",boxSizing:"border-box"}}>
-            <div style={{border:"1px solid black"}}>
-              <div className='cardBancos'>
-                <div>Ingresos</div>
-                <h2 style={{fontSize:30}}>${ingresos.toFixed(2)}</h2>
-              </div>
-              <div className='cardBancos'>
-                <div>Egresos</div>
-                <h2 style={{fontSize:30}}>$0</h2>
-              </div>
-            </div>
-            <div>
-              Grafico
-            </div>
-          </div>
-        */
-      }
     </>
   )
 }
