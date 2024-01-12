@@ -5,6 +5,7 @@ import { IoLogOutOutline } from "react-icons/io5";
 import AsideSection from '../components/AsideSection';
 import PrivateRouter from './PrivateRouter';
 import { AppContext } from '../context/AppContext';
+import NavBar from '../components/NavBar';
 
 
 const PrivateStructure = () => {
@@ -27,10 +28,7 @@ const PrivateStructure = () => {
   }, [])
   return (
     <>
-      <header className='header'>
-        <IoLogOutOutline/>
-        <span style={{fontWeight:"500"}}>Salir</span>
-      </header>
+      <NavBar/>
       <main className='main'>
         <AsideSection/>
         <div className='mainView'>

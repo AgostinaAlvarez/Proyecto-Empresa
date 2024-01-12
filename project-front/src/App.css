@@ -64,6 +64,7 @@
 
 
 .header{
+  position: relative;
   height: 40px;
   width: 100%;
   display: flex;
@@ -595,4 +596,19 @@ th{
   padding: 20px;
   margin: 10px auto;
   border-radius: 10px;
+}
+
+
+.sub_menu_profile{
+  position: absolute;
+  right: 0;
+  top: 100%;
+  min-width: 300px;
+  padding: 30px 7px;
+  background-color: red;
+  z-index: 300;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-sizing: border-box;
 }
