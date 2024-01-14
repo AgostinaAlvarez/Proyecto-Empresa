@@ -13,7 +13,7 @@ export const verifyToken = (req,res,next) =>{
       const validPayload = jwt.verify(token,process.env.JWT_SECRET_KEY)
       next()
     }catch(err){
-      return res.status(401).json({ok:false,message:'invalid token',tkn:token})
+      return res.status(401).json({ok:false,message:'invalid token'})
     }
 }
 //Funcion check auth

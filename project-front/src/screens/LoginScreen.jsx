@@ -62,8 +62,8 @@ const LoginScreen = () => {
       :
       <main className='loginBg'>
         <div className='loginCont cardShadow'>
-          <img src={Logo}/>
-          <h1>Iniciar sesion</h1>
+          <img src={Logo} style={{height:200}}/>
+          <h1 >Iniciar sesion</h1>
           <form onSubmit={handleSubmit} className='loginForm'>
             <div style={{display:"flex",flexDirection:"column",gap:5,width:"100%"}}>
               <label>Email</label>

@@ -11,6 +11,25 @@ import { FiPrinter } from "react-icons/fi";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { Button, Table, Tag } from 'antd';
 
+const HighlightedTableRow = ({ record, onMouseEnter, onMouseLeave, ...restProps }) => {
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <tr
+      onMouseEnter={() => {
+        setIsHovered(true);
+        if (onMouseEnter) onMouseEnter(record);
+      }}
+      onMouseLeave={() => {
+        setIsHovered(false);
+        if (onMouseLeave) onMouseLeave(record);
+      }}
+      style={{ background: isHovered ? '#e6f7ff' : '' }}
+      {...restProps}
+    />
+  );
+};
+
 const FacturasDeVenta = () => {
   const {facturas} = useContext(AppContext)
   const navigate = useNavigate();
@@ -204,6 +223,12 @@ const FacturasDeVenta = () => {
           //showSizeChanger: true,
           showTotal: (total, range) => `${range[0]}-${range[1]} de ${total} elementos`,
         }}
+        components={{
+          body: {
+            row: HighlightedTableRow,
+          },
+        }}
+  
       />
 
      
