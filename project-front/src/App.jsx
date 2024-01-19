@@ -38,6 +38,7 @@ function App() {
       const response = await axios.get(`${serverURL}/api/check-auth`, { withCredentials: true })
       response.data.ok === true ? authAcces() : denyAcces()
     } catch (err) {
+      /*denegar acceso*/
       denyAcces()
     }
   }  
